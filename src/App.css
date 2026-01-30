@@ -1,0 +1,30 @@
+span, h1, h2, h3, h4, p, a, button, img {
+  transition: color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+}
+
+
+.App {
+  animation: fadeInPage 0.5s ease-in-out;
+}
+
+@keyframes fadeInPage {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.page-wrapper {
+  animation: languageChange 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes languageChange {
+  0% {
+    opacity: 0.5;
+    filter: blur(2px);
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}

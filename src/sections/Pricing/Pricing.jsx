@@ -17,12 +17,12 @@ const Pricing = () => {
       icon: 'fa-seedling',
       tagline: t('plan_free_tag'),
       features: [
-        { text: 'Up to 3 projects', included: true },
+        { text: 'Up to 3 users', included: true },
+        { text: '1 Project', included: true },
         { text: 'Basic analytics', included: true },
         { text: 'Community support', included: true },
-        { text: '1GB Storage', included: true },
-        { text: 'Export functionality', included: false },
-        { text: 'Custom domains', included: false },
+        { text: 'Export data functionality', included: false },
+
       ],
       button: <SecondaryButton btnText={t('btn_start_free')} fullWidth />
     },

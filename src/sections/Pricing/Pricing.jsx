@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import './Pricing.css';
 import PrimaryButton from '../../components/Buttons/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../components/Buttons/SecondaryButton/SecondaryButton';
 
 const Pricing = () => {
+  const { t } = useTranslation();
   const [billingCycle, setBillingCycle] = useState('monthly');
   const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -13,7 +15,7 @@ const Pricing = () => {
       price: '0',
       yearlyPrice: '0',
       icon: 'fa-seedling',
-      tagline: 'Perfect for getting started',
+      tagline: t('plan_free_tag'),
       features: [
         { text: 'Up to 3 projects', included: true },
         { text: 'Basic analytics', included: true },
@@ -22,14 +24,14 @@ const Pricing = () => {
         { text: 'Export functionality', included: false },
         { text: 'Custom domains', included: false },
       ],
-      button: <SecondaryButton btnText="Start for free" fullWidth />
+      button: <SecondaryButton btnText={t('btn_start_free')} fullWidth />
     },
     {
       name: 'Starter',
       price: '19',
       yearlyPrice: '15',
       icon: 'fa-rocket',
-      tagline: 'For growing projects',
+      tagline: t('plan_starter_tag'),
       features: [
         { text: 'Up to 10 projects', included: true },
         { text: 'Advanced analytics', included: true },
@@ -38,7 +40,7 @@ const Pricing = () => {
         { text: 'Custom domains', included: true },
         { text: 'Team collaboration', included: false },
       ],
-      button: <SecondaryButton btnText="Get Started" fullWidth />
+      button: <SecondaryButton btnText={t('btn_get_started')} fullWidth />
     },
     {
       name: 'Pro',
@@ -46,7 +48,7 @@ const Pricing = () => {
       yearlyPrice: '39',
       icon: 'fa-bolt',
       popular: true,
-      tagline: 'Most popular choice',
+      tagline: t('plan_pro_tag'),
       features: [
         { text: 'Unlimited projects', included: true },
         { text: 'Real-time tracking', included: true },
@@ -55,14 +57,14 @@ const Pricing = () => {
         { text: 'Team collaboration', included: true },
         { text: 'API Access', included: true },
       ],
-      button: <PrimaryButton btnText="Try Pro Now" fullWidth />
+      button: <PrimaryButton btnText={t('btn_try_pro')} fullWidth />
     },
     {
       name: 'Enterprise',
       price: '99',
       yearlyPrice: '79',
       icon: 'fa-crown',
-      tagline: 'For large organizations',
+      tagline: t('plan_enterprise_tag'),
       features: [
         { text: 'Custom solutions', included: true },
         { text: 'Dedicated manager', included: true },
@@ -71,41 +73,35 @@ const Pricing = () => {
         { text: 'Custom Security', included: true },
         { text: 'White-labeling', included: true },
       ],
-      button: <SecondaryButton btnText="Contact Sales" fullWidth />
+      button: <SecondaryButton btnText={t('btn_contact_sales')} fullWidth />
     }
   ];
 
   return (
-    <section className="pricing-section">
-   
+   <section className="pricing-section">
       <div className="pricing-blur-glow"></div>
-      <div className="pricing-floating-shapes">
-        <div className="shape shape-1"></div>
-        <div className="shape shape-2"></div>
-        <div className="shape shape-3"></div>
-      </div>
       
       <div className="pricing-header">
-       
-        <h2 className="pricing-title">
-          Simple & <span className="text-gradient">Transparent</span> Pricing
+          <h2 className="pricing-title">
+        <Trans 
+            i18nKey="pricing_title" 
+            components={{ span: <span className="text-gradient" /> }} 
+        />
         </h2>
-        <p className="pricing-subtitle">
-          Choose the perfect plan for your needs. No hidden fees, no surprises.
-        </p>
+        <p className="pricing-subtitle">{t('pricing_subtitle')}</p>
         
         <div className="billing-toggle">
           <button 
             className={`toggle-btn ${billingCycle === 'monthly' ? 'active' : ''}`}
             onClick={() => setBillingCycle('monthly')}
           >
-            Monthly
+            {t('monthly')}
           </button>
           <button 
             className={`toggle-btn ${billingCycle === 'yearly' ? 'active' : ''}`}
             onClick={() => setBillingCycle('yearly')}
           >
-            Yearly <span className="save-badge">Save up to 20%</span>
+            {t('yearly')} <span className="save-badge">{t('save_20')}</span>
           </button>
         </div>
       </div>
@@ -120,7 +116,7 @@ const Pricing = () => {
           >
             {plan.popular && (
               <div className="popular-badge">
-                <i className="fa-solid fa-star"></i> Most Popular
+                <i className="fa-solid fa-star"></i> {t('most_popular')}
               </div>
             )}
             
@@ -135,9 +131,9 @@ const Pricing = () => {
                 <span className="amount">
                   {billingCycle === 'yearly' ? plan.yearlyPrice : plan.price}
                 </span>
-                <span className="period">/mo</span>
+                <span className="period">{t('per_month')}</span>
                 {billingCycle === 'yearly' && plan.yearlyPrice !== plan.price && (
-                  <span className="yearly-note">billed annually</span>
+                  <span className="yearly-note">{t('billed_annually')}</span>
                 )}
               </div>
             </div>
@@ -155,7 +151,7 @@ const Pricing = () => {
               {plan.button}
               {plan.popular && (
                 <p className="popular-note">
-                  <i className="fa-solid fa-bolt"></i> Join 2,500+ teams
+                  <i className="fa-solid fa-bolt"></i> {t('join_teams')}
                 </p>
               )}
             </div>
@@ -164,31 +160,36 @@ const Pricing = () => {
       </div>
 
       <div className="comparison-section">
-        <h3 className="comparison-title">Feature Comparison</h3>
-        <div className="comparison-table">
-          <div className="comparison-row header">
-            <div className="comparison-cell">Feature</div>
-            <div className="comparison-cell">Free</div>
-            <div className="comparison-cell">Starter</div>
-            <div className="comparison-cell">Pro</div>
-            <div className="comparison-cell">Enterprise</div>
-          </div>
-          <div className="comparison-row">
-            <div className="comparison-cell">Projects</div>
-            <div className="comparison-cell">3</div>
-            <div className="comparison-cell">10</div>
-            <div className="comparison-cell">Unlimited</div>
-            <div className="comparison-cell">Unlimited</div>
-          </div>
-          <div className="comparison-row">
-            <div className="comparison-cell">Support</div>
-            <div className="comparison-cell">Community</div>
-            <div className="comparison-cell">Email</div>
-            <div className="comparison-cell">24/7 Phone</div>
-            <div className="comparison-cell">Dedicated</div>
-          </div>
-        </div>
-      </div>
+  <h3 className="comparison-title">{t('feature_comparison')}</h3>
+  <div className="comparison-table">
+
+    <div className="comparison-row header">
+      <div className="comparison-cell">{t('feature')}</div>
+      <div className="comparison-cell">Free</div>
+      <div className="comparison-cell">Starter</div>
+      <div className="comparison-cell">Pro</div>
+      <div className="comparison-cell">Enterprise</div>
+    </div>
+
+
+    <div className="comparison-row">
+      <div className="comparison-cell">{t('projects')}</div>
+      <div className="comparison-cell">3</div>
+      <div className="comparison-cell">10</div>
+      <div className="comparison-cell">{t('unlimited')}</div>
+      <div className="comparison-cell">{t('unlimited')}</div>
+    </div>
+
+
+    <div className="comparison-row">
+      <div className="comparison-cell">{t('support')}</div>
+      <div className="comparison-cell">{t('support_community')}</div>
+      <div className="comparison-cell">{t('support_email')}</div>
+      <div className="comparison-cell">{t('support_phone')}</div>
+      <div className="comparison-cell">{t('support_dedicated')}</div>
+    </div>
+  </div>
+</div>
     </section>
   );
 };

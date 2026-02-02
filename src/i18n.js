@@ -80,7 +80,40 @@ const resources = {
       "downtime": "Dīkstāve",
       "real_time_cost": "Peļņa 2025. gadā",
 
-      "how_it_works_subtitle": "no nulles"
+      "how_it_works_subtitle": "no nulles",
+
+     
+      "pricing_title": "Vienkārša un <span class='text-gradient'>caurspīdīga</span> cenu politika",
+      "pricing_subtitle": "Izvēlies savām vajadzībām piemērotāko plānu. Nekādu slēptu maksu.",
+      "monthly": "Mēneša",
+      "yearly": "Gada",
+      "save_20": "Ietaupi līdz 20%",
+      "billed_annually": "rēķins reizi gadā",
+      "most_popular": "Populārākā izvēle",
+      "join_teams": "Pievienojies 2,500+ komandām",
+      "feature_comparison": "Funkciju salīdzinājums",
+      "per_month": "/mēn",
+
+   
+      "plan_free_tag": "Ideāli sākumam",
+      "plan_starter_tag": "Augošiem projektiem",
+      "plan_pro_tag": "Populārākā izvēle",
+      "plan_enterprise_tag": "Lielām organizācijām",
+
+   
+      "btn_start_free": "Sākt bez maksas",
+      "btn_get_started": "Sākt tagad",
+      "btn_try_pro": "Izmēģināt Pro",
+      "btn_contact_sales": "Sazināties ar pārdošanu",
+
+      "feature": "Funkcija",
+      "projects": "Projekti",
+      "support": "Atbalsts",
+      "unlimited": "Neierobežoti",
+      "support_community": "Kopienas",
+      "support_email": "E-pasts",
+      "support_phone": "24/7 Telefons",
+      "support_dedicated": "Personīgais vadītājs",
     }
   },
   en: {
@@ -156,7 +189,37 @@ const resources = {
       "employee_worked": "Jake worked 115h in February",
       "low_level": "Low level",
       "downtime": "Downtime",
-      "real_time_cost": "Profit in 2025"
+      "real_time_cost": "Profit in 2025",
+
+      "pricing_title": "Simple & <span class='text-gradient'>Transparent</span> Pricing",
+      "pricing_subtitle": "Choose the perfect plan for your needs. No hidden fees, no surprises.",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "save_20": "Save up to 20%",
+      "billed_annually": "billed annually",
+      "most_popular": "Most Popular",
+      "join_teams": "Join 2,500+ teams",
+      "feature_comparison": "Feature Comparison",
+      "per_month": "/mo",
+
+      "plan_free_tag": "Perfect for getting started",
+      "plan_starter_tag": "For growing projects",
+      "plan_pro_tag": "Most popular choice",
+      "plan_enterprise_tag": "For large organizations",
+
+      "btn_start_free": "Start for free",
+      "btn_get_started": "Get Started",
+      "btn_try_pro": "Try Pro Now",
+      "btn_contact_sales": "Contact Sales",
+
+      "feature": "Feature",
+      "projects": "Projects",
+      "support": "Support",
+      "unlimited": "Unlimited",
+      "support_community": "Community",
+      "support_email": "Email",
+      "support_phone": "24/7 Phone",
+      "support_dedicated": "Dedicated",
 
     }
   }

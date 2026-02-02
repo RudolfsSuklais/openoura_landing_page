@@ -5,10 +5,12 @@ import PrimaryButton from '../Buttons/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../Buttons/SecondaryButton/SecondaryButton';
 import OpenOuraLogoSM from "../../assets/openoura_logo_sm.png"
 
+
 function Navbar() {
   const { t, i18n } = useTranslation();
   const [loaded, setLoaded] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
     setLoaded(true);
@@ -16,13 +18,14 @@ function Navbar() {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
+    setLangOpen(false);
   };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  return (
+return (
     <>
       <nav className={`navbar ${loaded ? 'nav-visible' : ''}`}>
         
@@ -60,23 +63,38 @@ function Navbar() {
             />
           </div>
           
-          <div className="lang-switch animate-nav-item delay-5">
-            <button 
-              className={i18n.language === 'lv' ? 'active' : ''} 
-              onClick={() => changeLanguage('lv')}
-            >
-              LV
-            </button>
-            <button 
-              className={i18n.language === 'en' ? 'active' : ''} 
-              onClick={() => changeLanguage('en')}
-            >
-              EN
-            </button>
-          </div>
+
+    <div 
+  className="lang-custom-dropdown animate-nav-item delay-5"
+  onMouseEnter={() => setLangOpen(true)}
+  onMouseLeave={() => setLangOpen(false)}
+>
+  <div className={`lang-selected-wrapper ${langOpen ? 'active' : ''}`}>
+    <i className="fa-solid fa-globe globe-icon"></i>
+    <span className="lang-code-text">{i18n.language}</span>
+    <i className="fa-solid fa-chevron-down lang-arrow"></i>
+  </div>
+
+
+  <div className={`lang-options-list ${langOpen ? 'visible' : ''}`}>
+    <div 
+      className={`lang-opt ${i18n.language === 'lv' ? 'selected' : ''}`} 
+      onClick={() => changeLanguage('lv')}
+    >
+      <span className="lang-name">Latviešu</span>
+      {i18n.language === 'lv' && <i className="fa-solid fa-circle-check"></i>}
+    </div>
+    <div 
+      className={`lang-opt ${i18n.language === 'en' ? 'selected' : ''}`} 
+      onClick={() => changeLanguage('en')}
+    >
+      <span className="lang-name">English</span>
+      {i18n.language === 'en' && <i className="fa-solid fa-circle-check"></i>}
+    </div>
+  </div>
+</div>
         </div>
 
-   
         <div className="hamburger-menu animate-nav-item" onClick={toggleMobileMenu}>
           <div className={`hamburger-line ${mobileMenuOpen ? 'open' : ''}`}></div>
           <div className={`hamburger-line ${mobileMenuOpen ? 'open' : ''}`}></div>
@@ -84,7 +102,6 @@ function Navbar() {
         </div>
       </nav>
 
-   
       <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`} onClick={toggleMobileMenu}>
         <div className="mobile-menu-content" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-menu-header">
@@ -109,20 +126,33 @@ function Navbar() {
             />
           </div>
 
-          <div className="mobile-lang-switch">
-            <button 
-              className={i18n.language === 'lv' ? 'active' : ''} 
-              onClick={() => changeLanguage('lv')}
-            >
-              LV
-            </button>
-            <button 
-              className={i18n.language === 'en' ? 'active' : ''} 
-              onClick={() => changeLanguage('en')}
-            >
-              EN
-            </button>
-          </div>
+    
+         <div className="mobile-lang-container">
+  <p className="mobile-lang-label">{t('select_language')}</p>
+  <div className="mobile-lang-list">
+    <div 
+      className={`mobile-lang-item ${i18n.language === 'lv' ? 'active' : ''}`}
+      onClick={() => changeLanguage('lv')}
+    >
+      <div className="mobile-lang-info">
+        <span className="mobile-lang-dot"></span>
+        <span className="mobile-lang-name">Latviešu</span>
+      </div>
+      {i18n.language === 'lv' && <i className="fa-solid fa-circle-check"></i>}
+    </div>
+
+    <div 
+      className={`mobile-lang-item ${i18n.language === 'en' ? 'active' : ''}`}
+      onClick={() => changeLanguage('en')}
+    >
+      <div className="mobile-lang-info">
+        <span className="mobile-lang-dot"></span>
+        <span className="mobile-lang-name">English</span>
+      </div>
+      {i18n.language === 'en' && <i className="fa-solid fa-circle-check"></i>}
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </>

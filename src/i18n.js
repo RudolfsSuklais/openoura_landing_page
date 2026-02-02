@@ -27,6 +27,7 @@ const resources = {
       'floating_card_project_cost': 'Izmaksāja 98 492€ | 28% peļņa',
       "break": "Pārtraukums",
       'status_break': 'Pauze',
+      "select_language": "Izvēlēties valodu",
       
       
   
@@ -106,6 +107,7 @@ const resources = {
       'floating_card_project_cost': 'Cost 99 583$ | 28% profit',
       "break": "Break",
       'status_break': 'Break',
+      "select_language": "Select language",
 
   
       "cookie_title": "We respect your privacy",

@@ -6,6 +6,7 @@ import CookieConsent from './components/Cookies/CookieConsent'
 import Hero from './sections/Hero/Hero.jsx'
 import Shift from './sections/Shift/Shift.jsx'
 import HowItWorks from './sections/HowItWorks/HowItWorks.jsx'
+import Pricing from './sections/Pricing/Pricing.jsx'
 
 import { useTranslation } from 'react-i18next';
 
@@ -22,6 +23,7 @@ const { i18n } = useTranslation();
       <Hero />
       <Shift />
       <HowItWorks />
+      <Pricing />
     </div>
   )
 }

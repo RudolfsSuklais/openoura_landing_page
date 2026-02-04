@@ -22,56 +22,61 @@ const Pricing = () => {
         { text: 'Basic analytics', included: true },
         { text: 'Community support', included: true },
         { text: 'Export data functionality', included: false },
+        { text: 'Project manager functionality', included: false },
+        { text: 'Paid onboarding process (149.99 €)', included: false },
 
       ],
       button: <SecondaryButton btnText={t('btn_start_free')} fullWidth />
     },
     {
       name: 'Starter',
-      price: '19',
+      price: '29',
       yearlyPrice: '15',
       icon: 'fa-rocket',
       tagline: t('plan_starter_tag'),
       features: [
-        { text: 'Up to 10 projects', included: true },
-        { text: 'Advanced analytics', included: true },
-        { text: 'Priority email support', included: true },
-        { text: '10GB Storage', included: true },
-        { text: 'Custom domains', included: true },
-        { text: 'Team collaboration', included: false },
+        { text: 'Up to 10 users', included: true },
+        { text: 'Up to 5 projects', included: true },
+        { text: 'Basic analytics', included: true },
+        { text: 'Community support', included: true },
+        { text: 'Export data functionality', included: false },
+        { text: 'Project manager functionality', included: false },
+        { text: 'Paid onboarding process (119.99 €)', included: false },
       ],
       button: <SecondaryButton btnText={t('btn_get_started')} fullWidth />
     },
     {
       name: 'Pro',
-      price: '49',
+      price: '99',
       yearlyPrice: '39',
       icon: 'fa-bolt',
       popular: true,
       tagline: t('plan_pro_tag'),
       features: [
+        { text: 'Up to 30 users', included: true },
         { text: 'Unlimited projects', included: true },
-        { text: 'Real-time tracking', included: true },
-        { text: '24/7 Phone support', included: true },
-        { text: '100GB Storage', included: true },
-        { text: 'Team collaboration', included: true },
-        { text: 'API Access', included: true },
+        { text: 'Basic analytics', included: true },
+        { text: 'Community support', included: true },
+        { text: 'Export data functionality', included: true },
+        { text: 'Project manager functionality', included: true },
+        { text: 'Paid onboarding process (99.99 €)', included: false },
       ],
       button: <PrimaryButton btnText={t('btn_try_pro')} fullWidth />
     },
     {
       name: 'Enterprise',
-      price: '99',
+      price: '249',
       yearlyPrice: '79',
       icon: 'fa-crown',
       tagline: t('plan_enterprise_tag'),
       features: [
-        { text: 'Custom solutions', included: true },
+        { text: 'Unilited users', included: true },
+        { text: 'Unlimited projects', included: true },
+        { text: 'Basic analytics', included: true },
         { text: 'Dedicated manager', included: true },
-        { text: 'SLA Guarantee', included: true },
-        { text: 'Unlimited Storage', included: true },
-        { text: 'Custom Security', included: true },
-        { text: 'White-labeling', included: true },
+        { text: 'Export data functionality', included: true },
+        { text: 'Project manager functionality', included: true },
+        { text: 'Free onboarding process', included: true },
       ],
       button: <SecondaryButton btnText={t('btn_contact_sales')} fullWidth />
     }
@@ -127,7 +132,7 @@ const Pricing = () => {
               <h3 className="plan-name">{plan.name}</h3>
               <p className="plan-tagline">{plan.tagline}</p>
               <div className="plan-price">
-                <span className="currency">$</span>
+                <span className="currency">€</span>
                 <span className="amount">
                   {billingCycle === 'yearly' ? plan.yearlyPrice : plan.price}
                 </span>
@@ -159,37 +164,7 @@ const Pricing = () => {
         ))}
       </div>
 
-      <div className="comparison-section">
-  <h3 className="comparison-title">{t('feature_comparison')}</h3>
-  <div className="comparison-table">
 
-    <div className="comparison-row header">
-      <div className="comparison-cell">{t('feature')}</div>
-      <div className="comparison-cell">Free</div>
-      <div className="comparison-cell">Starter</div>
-      <div className="comparison-cell">Pro</div>
-      <div className="comparison-cell">Enterprise</div>
-    </div>
-
-
-    <div className="comparison-row">
-      <div className="comparison-cell">{t('projects')}</div>
-      <div className="comparison-cell">3</div>
-      <div className="comparison-cell">10</div>
-      <div className="comparison-cell">{t('unlimited')}</div>
-      <div className="comparison-cell">{t('unlimited')}</div>
-    </div>
-
-
-    <div className="comparison-row">
-      <div className="comparison-cell">{t('support')}</div>
-      <div className="comparison-cell">{t('support_community')}</div>
-      <div className="comparison-cell">{t('support_email')}</div>
-      <div className="comparison-cell">{t('support_phone')}</div>
-      <div className="comparison-cell">{t('support_dedicated')}</div>
-    </div>
-  </div>
-</div>
     </section>
   );
 };

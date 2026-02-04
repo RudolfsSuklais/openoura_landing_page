@@ -6,7 +6,7 @@ const resources = {
   lv: {
     translation: {
       "home": "Sākums",
-      "showcase": "Portfolio",
+      "introduction": "Ievads",
       "pricing": "Cenas",
       "login": "Ienākt",
       "get_started": "Sākt bez maksas",
@@ -28,6 +28,7 @@ const resources = {
       "break": "Pārtraukums",
       'status_break': 'Pauze',
       "select_language": "Izvēlēties valodu",
+      "how": "Pamācība",
       
       
   
@@ -125,6 +126,8 @@ const resources = {
       "get_started": "Start for free",
       "cookie_text": "We use cookies to improve your experience on our platform.",
       "cookie_accept": "I Accept",
+      "introduction": "Introduction",
+      "how": "Tutorial",
       
 
       "hero_new_feature": "New: Projects for managers – plan and manage projects!",

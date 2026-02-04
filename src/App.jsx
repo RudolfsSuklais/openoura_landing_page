@@ -20,10 +20,10 @@ const { i18n } = useTranslation();
     <div className="page-wrapper" key={i18n.language}>
       <Navbar />
       <CookieConsent />
-      <Hero />
-      <Shift />
-      <HowItWorks />
-      <Pricing />
+      <section id="home"><Hero /></section>
+      <section id='shift'><Shift/></section>
+      <section id='how-it-works'><HowItWorks /></section>
+      <section id="pricing"><Pricing /></section>
     </div>
   )
 }

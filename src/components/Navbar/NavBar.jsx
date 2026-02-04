@@ -35,17 +35,22 @@ return (
 
         <ul className="nav-links">
           <li className="animate-nav-item delay-1">
-            <a className="nav-item">
+            <a className="nav-item" href='#home'>
               <i className="fa-solid fa-house-chimney"></i> {t('home')}
             </a>
           </li>
           <li className="animate-nav-item delay-2">
-            <a className="nav-item">
-              <i className="fa-solid fa-layer-group"></i> {t('showcase')}
+            <a className="nav-item" href='#shift'>
+              <i className="fa-solid fa-layer-group"></i> {t('introduction')}
             </a>
           </li>
           <li className="animate-nav-item delay-3">
-            <a className="nav-item">
+            <a className="nav-item" href='#how-it-works'>
+              <i className="fa-solid fa-tag"></i> {t('how')}
+            </a>
+          </li>
+            <li className="animate-nav-item delay-4">
+            <a className="nav-item" href='#pricing'>
               <i className="fa-solid fa-tag"></i> {t('pricing')}
             </a>
           </li>

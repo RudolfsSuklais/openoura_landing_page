@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import "./Contact.css";
 import PrimaryButton from "../../components/Buttons/PrimaryButton/PrimaryButton";
@@ -19,6 +19,20 @@ function Contact() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+        handleBlur("subject");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const validate = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = t("contact_err_name");
@@ -33,6 +47,13 @@ function Contact() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const handleSelectSubject = (value) => {
+    setFormData((prev) => ({ ...prev, subject: value }));
+    if (errors.subject) setErrors((prev) => ({ ...prev, subject: "" }));
+    setIsDropdownOpen(false);
+    handleFocus("subject");
   };
 
   const handleFocus = (name) =>
@@ -77,13 +98,20 @@ function Contact() {
     },
   ];
 
+  const subjectOptions = [
+    { value: "demo", label: t("contact_subj_demo") },
+    { value: "pricing", label: t("contact_subj_pricing") },
+    { value: "support", label: t("contact_subj_support") },
+    { value: "partnership", label: t("contact_subj_partnership") },
+    { value: "other", label: t("contact_subj_other") },
+  ];
+
   return (
     <section className="contact">
       <div className="contact-blur-glow contact-blur-1"></div>
       <div className="contact-blur-glow contact-blur-2"></div>
 
       <div className="contact-container">
-        {/* Left side */}
         <div className="contact-info">
           <h2 className="contact-title animate-slide-up">
             {t("contact_title_1")} <br />
@@ -107,21 +135,8 @@ function Contact() {
               </div>
             ))}
           </div>
-
-          <div className="contact-social animate-fade-in-delayed">
-            <a href="#" className="social-link" aria-label="LinkedIn">
-              <i className="fa-brands fa-linkedin-in"></i>
-            </a>
-            <a href="#" className="social-link" aria-label="Twitter">
-              <i className="fa-brands fa-x-twitter"></i>
-            </a>
-            <a href="#" className="social-link" aria-label="GitHub">
-              <i className="fa-brands fa-github"></i>
-            </a>
-          </div>
         </div>
 
-        {/* Right side — form card */}
         <div className="contact-form-wrapper animate-slide-up">
           <div className="glass-card form-card">
             <div className="card-header">
@@ -225,37 +240,48 @@ function Contact() {
                   </div>
 
                   <div
-                    className={`form-group ${focused.subject ? "focused" : ""} ${formData.subject ? "filled" : ""}`}
+                    className={`form-group ${focused.subject || isDropdownOpen ? "focused" : ""} ${formData.subject ? "filled" : ""}`}
+                    ref={dropdownRef}
                   >
-                    <label htmlFor="subject">
+                    <label>
                       <i className="fa-solid fa-tag"></i>{" "}
                       {t("contact_label_subject")}
                     </label>
-                    <div className="select-wrapper">
-                      <select
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        onFocus={() => handleFocus("subject")}
-                        onBlur={() => handleBlur("subject")}
+                    <div className="custom-select-wrapper">
+                      <div
+                        className={`custom-select-trigger ${isDropdownOpen ? "active" : ""}`}
+                        onClick={() => {
+                          setIsDropdownOpen(!isDropdownOpen);
+                          handleFocus("subject");
+                        }}
                       >
-                        <option value="">
-                          {t("contact_subj_placeholder")}
-                        </option>
-                        <option value="demo">{t("contact_subj_demo")}</option>
-                        <option value="pricing">
-                          {t("contact_subj_pricing")}
-                        </option>
-                        <option value="support">
-                          {t("contact_subj_support")}
-                        </option>
-                        <option value="partnership">
-                          {t("contact_subj_partnership")}
-                        </option>
-                        <option value="other">{t("contact_subj_other")}</option>
-                      </select>
-                      <i className="fa-solid fa-chevron-down select-arrow"></i>
+                        <span
+                          className={!formData.subject ? "placeholder" : ""}
+                        >
+                          {formData.subject
+                            ? subjectOptions.find(
+                                (opt) => opt.value === formData.subject,
+                              )?.label
+                            : t("contact_subj_placeholder")}
+                        </span>
+                        <i
+                          className={`fa-solid fa-chevron-down select-arrow ${isDropdownOpen ? "rotated" : ""}`}
+                        ></i>
+                      </div>
+
+                      {isDropdownOpen && (
+                        <div className="custom-options-menu animate-fade-in-fast">
+                          {subjectOptions.map((option) => (
+                            <div
+                              key={option.value}
+                              className={`custom-option ${formData.subject === option.value ? "selected" : ""}`}
+                              onClick={() => handleSelectSubject(option.value)}
+                            >
+                              {option.label}
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

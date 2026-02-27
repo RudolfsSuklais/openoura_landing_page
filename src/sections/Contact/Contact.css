@@ -161,10 +161,6 @@
   transform: translateY(-2px);
 }
 
-/* ===========================
-   RIGHT — FORM CARD
-   =========================== */
-
 .contact-form-wrapper {
   z-index: 10;
 }
@@ -208,10 +204,6 @@
 .green {
   background: #27c93f;
 }
-
-/* ===========================
-   FORM FIELDS
-   =========================== */
 
 .contact-form {
   display: flex;
@@ -261,8 +253,7 @@
 }
 
 .form-group input,
-.form-group textarea,
-.form-group select {
+.form-group textarea {
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
@@ -287,8 +278,7 @@
 }
 
 .form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.form-group textarea:focus {
   border-color: rgba(123, 63, 242, 0.55);
   box-shadow:
     0 0 0 3px rgba(123, 63, 242, 0.1),
@@ -308,38 +298,112 @@
   line-height: 1.6;
 }
 
-/* Select wrapper */
-.select-wrapper {
+.custom-select-wrapper {
   position: relative;
+  width: 100%;
 }
 
-.select-wrapper select {
-  width: 100%;
+.custom-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #fff;
   cursor: pointer;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+  user-select: none;
+}
+
+.custom-select-trigger .placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.custom-select-trigger.active {
+  border-color: rgba(123, 63, 242, 0.55);
+  box-shadow:
+    0 0 0 3px rgba(123, 63, 242, 0.1),
+    0 0 20px rgba(123, 63, 242, 0.08);
+  background: rgba(0, 0, 0, 0.35);
 }
 
 .select-arrow {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
   color: rgba(255, 255, 255, 0.3);
   font-size: 11px;
-  pointer-events: none;
-  transition: color 0.3s;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .form-group.focused .select-arrow {
   color: #a855f7;
 }
 
-/* Select option colors */
-.form-group select option {
-  background: #1a1a1a;
+.select-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.custom-options-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 8px;
+  z-index: 100;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.custom-option {
+  padding: 12px 14px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-option:hover {
+  background: rgba(123, 63, 242, 0.15);
   color: #fff;
 }
 
-/* Char count */
+.custom-option.selected {
+  background: linear-gradient(
+    135deg,
+    rgba(123, 63, 242, 0.2),
+    rgba(225, 29, 255, 0.1)
+  );
+  color: #fff;
+  font-weight: 500;
+  border: 1px solid rgba(123, 63, 242, 0.2);
+}
+
+.animate-fade-in-fast {
+  animation: fadeInFast 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes fadeInFast {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .char-count {
   position: absolute;
   bottom: 12px;
@@ -349,7 +413,6 @@
   pointer-events: none;
 }
 
-/* Field errors */
 .field-error {
   font-size: 11px;
   color: #ff5f56;
@@ -376,23 +439,16 @@
   }
 }
 
-/* ===========================
-   SUBMIT BUTTON
-   =========================== */
-
-/* Submit wrapper — PrimaryButton handles its own styles via PrimaryButton.css */
 .submit-btn-wrapper {
   width: 100%;
   margin-top: 4px;
   cursor: pointer;
 }
 
-/* full-width support for PrimaryButton inside contact form */
 .submit-btn-wrapper .btn-primary {
   width: 100%;
 }
 
-/* Loading state button (replaces PrimaryButton during loading) */
 .btn-loading {
   display: inline-flex;
   align-items: center;
@@ -411,7 +467,6 @@
   letter-spacing: 0.3px;
 }
 
-/* Spinner */
 .spinner {
   width: 16px;
   height: 16px;
@@ -427,7 +482,6 @@
   }
 }
 
-/* Form note */
 .form-note {
   display: flex;
   align-items: center;
@@ -442,10 +496,6 @@
 .form-note i {
   color: #27c93f;
 }
-
-/* ===========================
-   SUCCESS STATE
-   =========================== */
 
 .success-state {
   display: flex;
@@ -500,10 +550,6 @@
   line-height: 1.6;
 }
 
-/* ===========================
-   ANIMATIONS
-   =========================== */
-
 .animate-fade-in {
   animation: fadeIn 0.8s ease forwards;
 }
@@ -553,10 +599,6 @@
     transform: translateY(0);
   }
 }
-
-/* ===========================
-   RESPONSIVE
-   =========================== */
 
 @media (max-width: 1024px) {
   .contact {

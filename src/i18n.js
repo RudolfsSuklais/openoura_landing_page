@@ -5,6 +5,8 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const resources = {
   lv: {
     translation: {
+      coming_soon: "Drīzumā",
+      testimonials: "Atsauksmes",
       home: "Sākums",
       introduction: "Ievads",
       pricing: "Cenas",
@@ -111,7 +113,7 @@ const resources = {
       contact_method_email: "E-pasts",
       contact_method_phone: "Tālrunis",
       contact_method_address: "Adrese",
-      contact_method_address_value: "Rīga, Latvija",
+      contact_method_address_value: "Liepāja, Latvija",
       contact_form_title: "Jauns ziņojums",
       contact_success_title: "Ziņojums nosūtīts!",
       contact_success_desc:
@@ -140,10 +142,86 @@ const resources = {
       contact_err_email_req: "E-pasts ir obligāts",
       contact_err_email_inv: "Nederīgs e-pasta formāts",
       contact_err_message: "Ziņojums ir obligāts",
+      testimonials_eyebrow: "Klientu stāsti",
+      testimonials_title_1: "Uzticas komandas,",
+      testimonials_title_2: "kas kustas ātri",
+      testimonials_subtitle:
+        "Reāli rezultāti no uzņēmumiem, kas izvēlējās pacelt latiņu augstāk.",
+      trust_stat_satisfaction: "Klientu apmierinātība",
+      trust_stat_companies: "Apkalpoti uzņēmumi",
+      trust_stat_support: "Diennakts atbalsts",
+      testimonial_1_quote:
+        "Kā Finestra Solution īpašnieks varu teikt, ka Openoura būtiski mainīja mūsu ikdienas darbu. Pirmajos trīs mēnešos samazinājām ražošanas kavējumus par aptuveni 30% un kļūdu skaitu projektos par gandrīz 20%. Tagad mums ir pilnīga pārskatāmība par katru uzdevumu, katru projektu un katru darbinieka ieguldīto stundu, kas ļauj pieņemt lēmumus balstoties uz reāliem datiem, nevis minējumiem.",
+      testimonial_1_role: "Valdes loceklis",
+      testimonial_1_metric: "30%",
+      testimonial_1_metric_label: "Ātrāka ražošanas plūsma",
+
+      cs_eyebrow: "Drīzumā pieejams",
+      cs_title_1: "Nākamais solis",
+      cs_title_2: "jau ceļā",
+      cs_subtitle:
+        "Šīs ir tikai dažas no iespējām, kuras mēs aktīvi izstrādājam. Paliec savienots — produkts aug kopā ar tevi.",
+      cs_in_development: "Izstrādes procesā",
+      cs_note:
+        "Ieteikumi ir svarīgi. Ja ir funkcionalitāte, ko vēlies redzēt — ",
+      cs_write_us: "raksti mums",
+
+      feature_pdf_tag: "PDF Failu augšupielāde",
+      feature_pdf_desc:
+        "Ražošanas grāmatas, optimizācijas dokumenti un citi projekta faili tiek augšupielādēti tieši pie konkrētā projekta.",
+      feature_schedule_tag: "Ražotnes noslodzes grafiks",
+      feature_schedule_desc:
+        "Vizuāla ražošanas plānošana – optimizē procesus, prognozē nepieciešamo darbinieku skaitu un resursus nākotnē.",
+      feature_mobile_tag: "Mobilā aplikācija",
+      feature_mobile_desc:
+        "Darbinieki un vadība var piekļūt datiem jebkurā laikā un vietā, reģistrēt progresu un saņemt KPI tieši savā telefonā.",
+
+      mockup_drop_files: "Velciet failus šeit",
+      mockup_capacity: "Kapacitāte",
+      mockup_load: "Noslodze",
+      mockup_over: "Pārsniegts",
+      mockup_hours: "Stundas (h)",
+      mockup_greeting: "Labdien, Jāni",
+      mockup_tasks: "Uzdevumi",
+      file_management: "Failu pārvalde",
+      feature_schedule_tag: "Ražošanas Plānotājs",
+
+      footer_newsletter_title: "Esi pirmais, kas uzzina jaunumus",
+      footer_newsletter_desc:
+        "Produkta atjauninājumi, padomi un ekskluzīvi piedāvājumi — tieši tavā iesūtnē.",
+      footer_newsletter_ph: "tavs@epasts.lv",
+      footer_newsletter_btn: "Pieteiktis",
+      footer_newsletter_success: "Paldies! Tu esi pieteicies.",
+      footer_tagline:
+        "Modernā ražošanas vadības platforma, kas aug kopā ar jūsu uzņēmumu.",
+      footer_location: "Liepāja, Latvija",
+      footer_rights: "Visas tiesības aizsargātas.",
+      footer_badge_gdpr: "GDPR atbilstošs",
+      footer_badge_ssl: "SSL drošs",
+      footer_badge_uptime: "99.9% uptime",
+      footer_made_with: "Izstrādāts ar",
+      footer_country: "Latvijā",
+      footer_col_product: "Produkts",
+      footer_col_company: "Uzņēmums",
+      footer_col_support: "Atbalsts",
+      footer_link_features: "Funkcionalitāte",
+      footer_link_coming_soon: "Drīzumā",
+      footer_link_pricing: "Cenas",
+      footer_link_integrations: "Integrācijas",
+      footer_link_about: "Par mums",
+      footer_link_team: "Komanda",
+      footer_link_careers: "Karjera",
+      footer_link_blog: "Blogs",
+      footer_link_docs: "Dokumentācija",
+      footer_link_contact: "Kontakti",
+      footer_link_privacy: "Privātuma politika",
+      footer_link_terms: "Lietošanas noteikumi",
     },
   },
   en: {
     translation: {
+      coming_soon: "Coming soon",
+      testimonials: "Testimonials",
       home: "Home",
       showcase: "Showcase",
       pricing: "Pricing",
@@ -249,7 +327,7 @@ const resources = {
       contact_method_email: "Email",
       contact_method_phone: "Phone",
       contact_method_address: "Address",
-      contact_method_address_value: "Riga, Latvia",
+      contact_method_address_value: "Liepaja, Latvia",
       contact_form_title: "New message",
       contact_success_title: "Message sent!",
       contact_success_desc:
@@ -278,6 +356,78 @@ const resources = {
       contact_err_email_req: "Email is required",
       contact_err_email_inv: "Invalid email format",
       contact_err_message: "Message is required",
+      testimonials_eyebrow: "Client Stories",
+      testimonials_title_1: "Trusted by teams",
+      testimonials_title_2: "who move fast",
+      testimonials_subtitle:
+        "Real results from businesses that chose to raise the bar.",
+      trust_stat_satisfaction: "Client Satisfaction",
+      trust_stat_companies: "Companies Served",
+      trust_stat_support: "24/7 Dedicated Support",
+      testimonial_1_quote:
+        "As the owner of Finestra Solution, I can confidently say that Openoura has transformed our daily operations. Within the first three months, we reduced production delays by approximately 30% and lowered project-related errors by nearly 20%. We now have full visibility over every task, every project, and every hour invested by our team, allowing us to make decisions based on real data rather than assumptions.",
+      testimonial_1_role: "Board Member",
+      testimonial_1_metric: "30%",
+      testimonial_1_metric_label: "Faster Production Flow",
+
+      cs_eyebrow: "Coming Soon",
+      cs_title_1: "The next step",
+      cs_title_2: "is on its way",
+      cs_subtitle:
+        "These are just a few of the features we are actively developing. Stay connected — the product grows with you.",
+      cs_in_development: "In development",
+      cs_note: "Feedback is key. If there's a feature you'd like to see — ",
+      cs_write_us: "contact us",
+
+      feature_pdf_tag: "PDF File Uploads",
+      feature_pdf_desc:
+        "Production books, optimization documents, and other project files are uploaded directly to the specific project.",
+      feature_schedule_tag: "Production Scheduler",
+      feature_schedule_desc:
+        "Visual production planning – optimize processes, forecast required staff and resources for the future.",
+      feature_mobile_tag: "Mobile Application",
+      feature_mobile_desc:
+        "Employees and management can access data anytime, anywhere, track progress and receive KPIs directly on their phone.",
+
+      mockup_drop_files: "Drop files here",
+      mockup_capacity: "Capacity",
+      mockup_load: "Load",
+      mockup_over: "Exceeded",
+      mockup_hours: "Hours (h)",
+      mockup_greeting: "Hello, John",
+      mockup_tasks: "Tasks",
+      file_management: "File Management",
+
+      footer_newsletter_title: "Be the first to know",
+      footer_newsletter_desc:
+        "Product updates, tips, and exclusive offers — straight to your inbox.",
+      footer_newsletter_ph: "your@email.com",
+      footer_newsletter_btn: "Subscribe",
+      footer_newsletter_success: "Thanks! You've subscribed.",
+      footer_tagline:
+        "The modern manufacturing management platform that grows with your business.",
+      footer_location: "Liepaja, Latvia",
+      footer_rights: "All rights reserved.",
+      footer_badge_gdpr: "GDPR Compliant",
+      footer_badge_ssl: "SSL Secure",
+      footer_badge_uptime: "99.9% uptime",
+      footer_made_with: "Made with",
+      footer_country: "in Latvia",
+      footer_col_product: "Product",
+      footer_col_company: "Company",
+      footer_col_support: "Support",
+      footer_link_features: "Features",
+      footer_link_coming_soon: "Coming Soon",
+      footer_link_pricing: "Pricing",
+      footer_link_integrations: "Integrations",
+      footer_link_about: "About Us",
+      footer_link_team: "Team",
+      footer_link_careers: "Careers",
+      footer_link_blog: "Blog",
+      footer_link_docs: "Documentation",
+      footer_link_contact: "Contact",
+      footer_link_privacy: "Privacy Policy",
+      footer_link_terms: "Terms of Service",
     },
   },
 };

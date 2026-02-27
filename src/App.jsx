@@ -2,12 +2,16 @@ import "./App.css";
 
 import Navbar from "./components/Navbar/NavBar";
 import CookieConsent from "./components/Cookies/CookieConsent";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 
 import Hero from "./sections/Hero/Hero.jsx";
 import Shift from "./sections/Shift/Shift.jsx";
 import HowItWorks from "./sections/HowItWorks/HowItWorks.jsx";
 import Pricing from "./sections/Pricing/Pricing.jsx";
 import Contact from "./sections/Contact/Contact.jsx";
+import Testimonials from "./sections/Contact/Testimonials/Testimonials.jsx";
+import ComingSoon from "./sections/ComingSoon/ComingSoon.jsx";
 
 import { useTranslation } from "react-i18next";
 
@@ -26,12 +30,20 @@ function App() {
       <section id="how-it-works">
         <HowItWorks />
       </section>
+      <section id="testimonials">
+        <Testimonials />
+      </section>
       <section id="pricing">
         <Pricing />
       </section>
       <section id="contact">
         <Contact />
       </section>
+      <section id="coming-soon">
+        <ComingSoon />
+      </section>
+      <Footer />
+      <ScrollToTop />
     </div>
   );
 }

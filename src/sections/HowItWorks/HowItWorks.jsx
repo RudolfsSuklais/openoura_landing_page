@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import step1IMG from "../../assets/step_1.png";
 import step2IMG from "../../assets/step_2.png";
 import step3IMG from "../../assets/step_3.png";
+import step4IMG from "../../assets/step_4.png";
 
 function HowItWorks() {
   const { t } = useTranslation();
@@ -46,7 +47,7 @@ function HowItWorks() {
     },
     {
       id: 3,
-      title: t("step_3_title", "Tasku ģenerēšana"),
+      title: t("step_3_title", "Uzdevumu izveide"),
       desc: t("step_3_desc", "..."),
       img: step3IMG,
     },
@@ -54,7 +55,7 @@ function HowItWorks() {
       id: 4,
       title: t("step_4_title", "Darbinieks strādā"),
       desc: t("step_4_desc", "..."),
-      img: "/images/step4.jpg",
+      img: step4IMG,
     },
     {
       id: 5,

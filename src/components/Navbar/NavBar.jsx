@@ -59,6 +59,16 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScroll]);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".lang-custom-dropdown")) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setLangOpen(false);
@@ -137,6 +147,17 @@ function Navbar() {
           </nav>
 
           <div className="nav-actions animate-nav-item delay-4">
+            <div className="nav-actions-buttons-wrapper">
+              <SecondaryButton
+                btnText={t("login")}
+                icon={<i className="fa-solid fa-arrow-right-to-bracket"></i>}
+                onClick={() => {}}
+              />
+              <PrimaryButton
+                btnText={t("get_started")}
+                icon={<i className="fa-solid fa-rocket"></i>}
+              />
+            </div>
             <div className="lang-custom-dropdown">
               <div
                 className={`lang-selected-wrapper ${langOpen ? "active" : ""}`}
@@ -166,51 +187,55 @@ function Navbar() {
                 ))}
               </div>
             </div>
-
-            <div className="nav-actions-buttons-wrapper">
-              <SecondaryButton
-                btnText={t("login")}
-                icon={<i className="fa-solid fa-arrow-right-to-bracket"></i>}
-                onClick={() => {}}
-              />
-              <PrimaryButton
-                btnText={t("get_started")}
-                icon={<i className="fa-solid fa-rocket"></i>}
-              />
-            </div>
           </div>
 
-          <button
-            className="hamburger-menu animate-nav-item"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}
-          >
-            <div
-              className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
-            ></div>
-            <div
-              className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
-            ></div>
-            <div
-              className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
-            ></div>
-          </button>
-        </div>
+          <div className="mobile-nav-right">
+            <div className="lang-custom-dropdown mobile-lang-dropdown">
+              <div
+                className={`lang-selected-wrapper lang-selected-compact ${langOpen ? "active" : ""}`}
+                onClick={() => setLangOpen(!langOpen)}
+                aria-label="Select language"
+              >
+                <i className="fa-solid fa-globe globe-icon"></i>
+                <span className="lang-code-text">
+                  {i18n.language.toUpperCase()}
+                </span>
+              </div>
 
-        <div className="nav-section-indicators">
-          {menuItems.map((item) => (
-            <div
-              key={item.section}
-              className={`section-dot ${activeSection === item.section ? "active" : ""}`}
-              onClick={() =>
-                document
-                  .getElementById(item.section)
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              title={item.label}
-            />
-          ))}
+              <div className={`lang-options-list ${langOpen ? "visible" : ""}`}>
+                {languages.map((lang) => (
+                  <div
+                    key={lang.code}
+                    className={`lang-opt ${i18n.language === lang.code ? "selected" : ""}`}
+                    onClick={() => changeLanguage(lang.code)}
+                  >
+                    <span className="lang-flag">{lang.flag}</span>
+                    <span className="lang-name">{lang.name}</span>
+                    {i18n.language === lang.code && (
+                      <i className="fa-solid fa-circle-check"></i>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button
+              className="hamburger-menu"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              <div
+                className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
+              ></div>
+              <div
+                className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
+              ></div>
+              <div
+                className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
+              ></div>
+            </button>
+          </div>
         </div>
       </nav>
 

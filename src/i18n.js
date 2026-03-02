@@ -216,6 +216,19 @@ const resources = {
       footer_link_contact: "Kontakti",
       footer_link_privacy: "Privātuma politika",
       footer_link_terms: "Lietošanas noteikumi",
+
+      step_1_desc:
+        "Openoura ļauj ātri sastādīt detalizētas tāmes, pievienot gatavas vai pielāgotas izmaksu pozīcijas un uzreiz redzēt projekta finansiālo rezultātu.",
+      step_1_title: "Tāmēšana",
+      step_2_desc:
+        "Izveido projektu ar visu nepieciešamo informāciju, sadali uzdevumus un izveido pārskatāmu sistēmu, kur nekas nepazūd un redzi aktuālo projekta izpildes statusu.",
+      step_2_title: "Projekta izveide",
+      step_3_desc:
+        "Izveido detalizētus uzdevumus, pievieno atbildīgos, termiņus un paredzamo izpildes laiku, lai komanda strādā pārskatāmi un efektīvi.",
+      step_3_title: "Uzdevumu izveide",
+      step_4_desc:
+        "Kad darbinieks palaiž uzdevumu, Openoura automātiski sāk reāllaika taimeri, parāda paredzamo izpildes laiku un ļauj redzēt, cik ilgi darbs tiek veikts.",
+      step_4_title: "Darbinieks strādā",
     },
   },
   en: {
@@ -428,6 +441,18 @@ const resources = {
       footer_link_contact: "Contact",
       footer_link_privacy: "Privacy Policy",
       footer_link_terms: "Terms of Service",
+      step_1_desc:
+        "Openoura allows you to quickly create detailed estimates, add predefined or custom cost items, and instantly see the financial outcome of the project.",
+      step_1_title: "Estimating",
+      step_2_desc:
+        "Create a project with all the necessary information, assign tasks, and build a clear system where nothing gets lost and you can always see the current project progress status.",
+      step_2_title: "Create a Project",
+      step_3_desc:
+        "Create detailed tasks, assign responsible team members, set deadlines, and include the estimated completion time so the team works transparently and efficiently.",
+      step_3_title: "Create Tasks",
+      step_4_desc:
+        "When an employee starts a task, Openoura automatically starts a real-time timer, shows the estimated completion time, and lets you see how long the work is taking.",
+      step_4_title: "Employee is Working",
     },
   },
 };

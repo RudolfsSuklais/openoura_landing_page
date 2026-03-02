@@ -169,7 +169,7 @@ function Testimonials() {
 
         <div className="trust-bar">
           <div className="trust-stat">
-            <span className="trust-number">98%</span>
+            <span className="trust-number">101%</span>
             <span className="trust-desc">{t("trust_stat_satisfaction")}</span>
           </div>
           <div className="trust-divider" />

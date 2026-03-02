@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import "./ComingSoon.css";
 
@@ -43,15 +43,13 @@ function Mockup({ type, color, colorSecondary }) {
     const months = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun"];
     const CAP = 5280;
     const workloadH = [3270, 3960, 4380, 4800, 5690, 4640];
-
-    const W = 210;
-    const H = 105;
+    const W = 210,
+      H = 105;
     const pad = { t: 10, r: 14, b: 20, l: 38 };
     const innerW = W - pad.l - pad.r;
     const innerH = H - pad.t - pad.b;
     const maxVal = 6400;
     const yTicks = [0, 1760, 3520, 5280];
-
     const toX = (i) => pad.l + (i / (months.length - 1)) * innerW;
     const toY = (v) => pad.t + innerH - (v / maxVal) * innerH;
 
@@ -108,7 +106,6 @@ function Mockup({ type, color, colorSecondary }) {
               <rect x={pad.l} y={pad.t} width={innerW} height={innerH} />
             </clipPath>
           </defs>
-
           {yTicks.map((v) => (
             <g key={v}>
               <line
@@ -136,7 +133,6 @@ function Mockup({ type, color, colorSecondary }) {
               </text>
             </g>
           ))}
-
           <text
             x={8}
             y={pad.t + innerH / 2}
@@ -148,7 +144,6 @@ function Mockup({ type, color, colorSecondary }) {
           >
             {t("mockup_hours")}
           </text>
-
           <path
             d={areaPath}
             fill="url(#loadGrad2)"
@@ -160,7 +155,6 @@ function Mockup({ type, color, colorSecondary }) {
             clipPath="url(#chartClip2)"
             className="overflow-area"
           />
-
           <polyline
             points={workloadH.map((v, i) => `${toX(i)},${toY(v)}`).join(" ")}
             fill="none"
@@ -171,7 +165,6 @@ function Mockup({ type, color, colorSecondary }) {
             className="chart-line-load"
             clipPath="url(#chartClip2)"
           />
-
           <line
             x1={toX(0)}
             y1={toY(CAP)}
@@ -182,7 +175,6 @@ function Mockup({ type, color, colorSecondary }) {
             strokeDasharray="4,2.5"
             className="chart-line-cap"
           />
-
           {workloadH.map((v, i) => (
             <circle
               key={i}
@@ -196,7 +188,6 @@ function Mockup({ type, color, colorSecondary }) {
               style={{ animationDelay: `${0.4 + i * 0.1}s` }}
             />
           ))}
-
           <g className="overflow-badge" style={{ animationDelay: "0.8s" }}>
             <rect
               x={toX(4) - 13}
@@ -217,7 +208,6 @@ function Mockup({ type, color, colorSecondary }) {
               +{overloadPct}%
             </text>
           </g>
-
           {months.map((m, i) => (
             <text
               key={i}
@@ -282,20 +272,36 @@ function Mockup({ type, color, colorSecondary }) {
   return null;
 }
 
-function FeatureCard({ feature, index, isVisible }) {
+function FeatureCard({ feature, index, position, onClick, isVisible }) {
   const { t } = useTranslation();
-  const [hovered, setHovered] = useState(false);
+
+  const isCenter = position === 0;
+  const absPos = Math.abs(position);
+
+  const getTransform = () => {
+    if (isCenter)
+      return "translateX(0px) translateZ(0px) rotateY(0deg) scale(1)";
+    if (absPos === 1) {
+      const dir = position > 0 ? 1 : -1;
+      return `translateX(${dir * 62}%) translateZ(-140px) rotateY(${dir * -18}deg) scale(0.82)`;
+    }
+    const dir = position > 0 ? 1 : -1;
+    return `translateX(${dir * 115}%) translateZ(-260px) rotateY(${dir * -28}deg) scale(0.65)`;
+  };
 
   return (
     <div
-      className={`cs-card ${isVisible ? "card-visible" : ""} ${hovered ? "card-hovered" : ""}`}
+      className={`cs-card cs-card-carousel ${isVisible ? "card-visible" : ""} ${isCenter ? "card-center" : ""}`}
       style={{
         "--card-color": feature.color,
         "--card-color-sec": feature.colorSecondary,
-        transitionDelay: `${0.15 + index * 0.12}s`,
+        transform: getTransform(),
+        opacity: isCenter ? 1 : absPos === 1 ? 0.65 : 0.2,
+        zIndex: isCenter ? 10 : absPos === 1 ? 6 : 2,
+        cursor: "default",
+        filter: isCenter ? "none" : `brightness(0.65)`,
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onClick={() => !isCenter && onClick(index)}
     >
       <div className="card-glow" />
 
@@ -343,7 +349,10 @@ function FeatureCard({ feature, index, isVisible }) {
 export default function ComingSoon() {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
   const sectionRef = useRef(null);
+  const autoRef = useRef(null);
 
   const features = [
     {
@@ -381,6 +390,39 @@ export default function ComingSoon() {
     },
   ];
 
+  const total = features.length;
+
+  const goTo = useCallback(
+    (index) => {
+      if (isAnimating) return;
+      setIsAnimating(true);
+      setActiveIndex(((index % total) + total) % total);
+      setTimeout(() => setIsAnimating(false), 600);
+    },
+    [isAnimating, total],
+  );
+
+  const resetAuto = useCallback(() => {
+    if (autoRef.current) clearInterval(autoRef.current);
+    autoRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % total);
+    }, 4500);
+  }, [total]);
+
+  useEffect(() => {
+    resetAuto();
+    return () => clearInterval(autoRef.current);
+  }, [resetAuto]);
+
+  const handleCardClick = (index) => {
+    goTo(index);
+    resetAuto();
+  };
+  const handleNav = (dir) => {
+    dir === "prev" ? goTo(activeIndex - 1) : goTo(activeIndex + 1);
+    resetAuto();
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -394,6 +436,15 @@ export default function ComingSoon() {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
+
+  const getPosition = (i) => {
+    let pos = i - activeIndex;
+    if (pos > total / 2) pos -= total;
+    if (pos < -total / 2) pos += total;
+    return pos;
+  };
+
+  const activeFeature = features[activeIndex];
 
   return (
     <section
@@ -412,14 +463,11 @@ export default function ComingSoon() {
             <i className="fa-solid fa-rocket-launch"></i>
             {t("cs_eyebrow")}
           </div>
-
           <h2 className="cs-title">
             {t("cs_title_1")} <br />
             <span className="text-gradient">{t("cs_title_2")}</span>
           </h2>
-
           <p className="cs-subtitle">{t("cs_subtitle")}</p>
-
           <div className="cs-timeline-dots">
             {Array.from({ length: 7 }).map((_, i) => (
               <div
@@ -432,10 +480,62 @@ export default function ComingSoon() {
           </div>
         </div>
 
-        <div className="cs-cards-grid">
-          {features.map((f, i) => (
-            <FeatureCard key={f.id} feature={f} index={i} isVisible={visible} />
-          ))}
+        <div className="cs-carousel-root">
+          <div
+            className="cs-carousel-ambient"
+            style={{
+              background: `radial-gradient(ellipse at 50% 70%, ${activeFeature.color}1a 0%, transparent 65%)`,
+              transition: "background 0.6s ease",
+            }}
+          />
+
+          <div className="cs-carousel-stage">
+            {features.map((feature, i) => (
+              <FeatureCard
+                key={feature.id}
+                feature={feature}
+                index={i}
+                position={getPosition(i)}
+                onClick={handleCardClick}
+                isVisible={visible}
+              />
+            ))}
+          </div>
+
+          <button
+            className="cs-carousel-btn cs-carousel-prev"
+            onClick={() => handleNav("prev")}
+            aria-label="Previous"
+          >
+            <i className="fa-solid fa-chevron-left"></i>
+          </button>
+          <button
+            className="cs-carousel-btn cs-carousel-next"
+            onClick={() => handleNav("next")}
+            aria-label="Next"
+          >
+            <i className="fa-solid fa-chevron-right"></i>
+          </button>
+
+          <div className="cs-carousel-dots">
+            {features.map((f, i) => (
+              <button
+                key={i}
+                className={`cs-dot-btn ${i === activeIndex ? "cs-dot-active" : ""}`}
+                style={
+                  i === activeIndex
+                    ? {
+                        background: activeFeature.color,
+                        boxShadow: `0 0 12px ${activeFeature.color}88`,
+                        width: "28px",
+                      }
+                    : {}
+                }
+                onClick={() => handleCardClick(i)}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         <div className={`cs-footer-note ${visible ? "note-visible" : ""}`}>

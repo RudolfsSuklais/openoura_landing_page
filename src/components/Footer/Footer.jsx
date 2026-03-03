@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Footer.css";
 import { useTranslation } from "react-i18next";
 
-import OpenOuraLogoSM from "../../assets/openoura_logo_sm.png";
-
 export default function Footer() {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -104,7 +102,10 @@ export default function Footer() {
         <div className="footer-main">
           <div className="footer-brand">
             <div className="footer-logo">
-              <img src={OpenOuraLogoSM} alt="openoura-logo" />
+              <img
+                src="/openoura_landing_page/openoura_logo_sm.png"
+                alt="Logo"
+              />
             </div>
             <p className="footer-tagline">{t("footer_tagline")}</p>
 

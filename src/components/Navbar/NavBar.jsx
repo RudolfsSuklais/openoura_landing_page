@@ -3,7 +3,6 @@ import "./Navbar.css";
 import { useTranslation } from "react-i18next";
 import PrimaryButton from "../Buttons/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../Buttons/SecondaryButton/SecondaryButton";
-import OpenOuraLogoSM from "../../assets/openoura_logo_sm.png";
 
 function Navbar() {
   const { t, i18n } = useTranslation();
@@ -120,7 +119,7 @@ function Navbar() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             title="Back to top"
           >
-            <img src={OpenOuraLogoSM} alt="Logo" />
+            <img src="/openoura_landing_page/openoura_logo_sm.png" alt="Logo" />
             <div className="logo-glow"></div>
           </div>
 
@@ -224,8 +223,8 @@ function Navbar() {
         >
           <div className="mobile-menu-header">
             <img
-              src={OpenOuraLogoSM}
-              alt="openoura_logo"
+              src="/openoura_landing_page/openoura_logo_sm.png"
+              alt="Logo"
               className="mobile-logo"
             />
           </div>

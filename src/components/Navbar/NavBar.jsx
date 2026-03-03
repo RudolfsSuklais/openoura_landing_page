@@ -21,8 +21,12 @@ function Navbar() {
 
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      setScrollDir(currentScroll > lastScroll ? "down" : "up");
-      setLastScroll(currentScroll);
+
+      setLastScroll((prev) => {
+        setScrollDir(currentScroll > prev ? "down" : "up");
+        return currentScroll;
+      });
+
       setScrolled(currentScroll > 20);
 
       const height =
@@ -44,10 +48,10 @@ function Navbar() {
         const element = document.getElementById(section);
         if (element) {
           const offsetTop = element.offsetTop;
-          const height = element.offsetHeight;
+          const sectionHeight = element.offsetHeight;
           if (
             scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + height
+            scrollPosition < offsetTop + sectionHeight
           ) {
             setActiveSection(section);
           }
@@ -55,9 +59,9 @@ function Navbar() {
       });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScroll]);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -190,35 +194,6 @@ function Navbar() {
           </div>
 
           <div className="mobile-nav-right">
-            <div className="lang-custom-dropdown mobile-lang-dropdown">
-              <div
-                className={`lang-selected-wrapper lang-selected-compact ${langOpen ? "active" : ""}`}
-                onClick={() => setLangOpen(!langOpen)}
-                aria-label="Select language"
-              >
-                <i className="fa-solid fa-globe globe-icon"></i>
-                <span className="lang-code-text">
-                  {i18n.language.toUpperCase()}
-                </span>
-              </div>
-
-              <div className={`lang-options-list ${langOpen ? "visible" : ""}`}>
-                {languages.map((lang) => (
-                  <div
-                    key={lang.code}
-                    className={`lang-opt ${i18n.language === lang.code ? "selected" : ""}`}
-                    onClick={() => changeLanguage(lang.code)}
-                  >
-                    <span className="lang-flag">{lang.flag}</span>
-                    <span className="lang-name">{lang.name}</span>
-                    {i18n.language === lang.code && (
-                      <i className="fa-solid fa-circle-check"></i>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <button
               className="hamburger-menu"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -253,13 +228,6 @@ function Navbar() {
               alt="openoura_logo"
               className="mobile-logo"
             />
-            <button
-              className="mobile-menu-close"
-              onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close menu"
-            >
-              <i className="fa-solid fa-times"></i>
-            </button>
           </div>
 
           <div className="mobile-menu-items">

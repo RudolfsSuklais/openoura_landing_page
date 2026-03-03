@@ -55,7 +55,7 @@ const resources = {
       status: "Statuss",
       status_finished: "Pabeigts",
       status_active: "Aktīvs",
-      task_quadra: "Quadras pārbaude",
+      task_quadra: "Zāģēšana",
       task_cnc: "CNC Griešana",
       shift_file_xlsx: "darbinieku_stundas(101).xlsx",
       shift_file_csv: "ražošanas_atskaite_2025.csv",
@@ -106,7 +106,7 @@ const resources = {
       support_dedicated: "Personīgais vadītājs",
 
       contact_badge: "Sazinies ar mums",
-      contact_title_1: "Runāsim par",
+      contact_title_1: "Sazināsimies",
       contact_title_2: "tavu projektu",
       contact_subtitle:
         "Mūsu komanda ir gatava palīdzēt tev izvēlēties labāko risinājumu. Aizpildi formu un mēs sazināsimies 24 stundu laikā.",
@@ -283,7 +283,7 @@ const resources = {
       status: "Status",
       status_finished: "Finished",
       status_active: "Active",
-      task_quadra: "Quadra inspection",
+      task_quadra: "Sawing",
       task_cnc: "CNC Cutting",
       shift_file_xlsx: "employee_hours(101).xlsx",
       shift_file_csv: "production_report_2025.csv",

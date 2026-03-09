@@ -3,6 +3,7 @@ import "./NavBar.css";
 import { useTranslation } from "react-i18next";
 import PrimaryButton from "../Buttons/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../Buttons/SecondaryButton/SecondaryButton";
+import OpenOuraLogo from "../../../public/openoura_logo_sm.png";
 
 const BREAKPOINT = 1200;
 const SECTIONS = [
@@ -132,7 +133,6 @@ export default function Navbar() {
                     mounted ? "nb--on" : "",
                     scrolled ? "nb--scrolled" : "",
                     hideBar ? "nb--hidden" : "",
-                    drawerOpen && !isDesktop ? "nb--drawer-open" : "",
                 ]
                     .filter(Boolean)
                     .join(" ")}>
@@ -143,10 +143,7 @@ export default function Navbar() {
                             window.scrollTo({ top: 0, behavior: "smooth" })
                         }
                         aria-label="Back to top">
-                        <img
-                            src="/openoura_landing_page/openoura_logo_sm.png"
-                            alt="Openoura"
-                        />
+                        <img src={OpenOuraLogo} alt="Openoura" />
                     </button>
 
                     <nav className="nb__links" aria-label="Main navigation">
@@ -265,15 +262,6 @@ export default function Navbar() {
                     onClick={(e) => e.stopPropagation()}>
                     <div className="nb-drawer__head">
                         <span className="nb-drawer__title">MENU</span>
-                        <button
-                            className="nb-drawer__close"
-                            onClick={() => setDrawerOpen(false)}
-                            aria-label="Close">
-                            <i
-                                className="fa-solid fa-xmark"
-                                aria-hidden="true"
-                            />
-                        </button>
                     </div>
 
                     <div className="nb-drawer__scroll">
@@ -328,28 +316,27 @@ export default function Navbar() {
                                 fullWidth
                             />
                         </div>
-                    </div>
-
-                    <div className="nb-drawer__lang">
-                        <p className="nb-drawer__lang-heading">
-                            {t("select_language")}
-                        </p>
-                        <div className="nb-drawer__lang-list">
-                            {LANGS.map((lang) => (
-                                <button
-                                    key={lang.code}
-                                    className={`nb-drawer__lang-item${i18n.language === lang.code ? " nb-drawer__lang-item--on" : ""}`}
-                                    onClick={() => changeLang(lang.code)}>
-                                    <span>{lang.flag}</span>
-                                    <span>{lang.name}</span>
-                                    {i18n.language === lang.code && (
-                                        <i
-                                            className="fa-solid fa-circle-check"
-                                            aria-hidden="true"
-                                        />
-                                    )}
-                                </button>
-                            ))}
+                        <div className="nb-drawer__lang">
+                            <p className="nb-drawer__lang-heading">
+                                {t("select_language")}
+                            </p>
+                            <div className="nb-drawer__lang-list">
+                                {LANGS.map((lang) => (
+                                    <button
+                                        key={lang.code}
+                                        className={`nb-drawer__lang-item${i18n.language === lang.code ? " nb-drawer__lang-item--on" : ""}`}
+                                        onClick={() => changeLang(lang.code)}>
+                                        <span>{lang.flag}</span>
+                                        <span>{lang.name}</span>
+                                        {i18n.language === lang.code && (
+                                            <i
+                                                className="fa-solid fa-circle-check"
+                                                aria-hidden="true"
+                                            />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

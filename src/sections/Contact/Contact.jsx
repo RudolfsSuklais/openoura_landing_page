@@ -3,430 +3,569 @@ import { useTranslation } from "react-i18next";
 import "./Contact.css";
 import PrimaryButton from "../../components/Buttons/PrimaryButton/PrimaryButton";
 
+// ← Paste your Web3Forms access key here (free at web3forms.com)
+const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE";
+
 function Contact() {
-  const { t } = useTranslation();
+    const { t } = useTranslation();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    subject: "",
-    plan: "",
-    message: "",
-  });
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        company: "",
+        subject: "",
+        plan: "",
+        message: "",
+    });
 
-  const [focused, setFocused] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+    const [focused, setFocused] = useState({});
+    const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [submitError, setSubmitError] = useState("");
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isPlanDropdownOpen, setIsPlanDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const planDropdownRef = useRef(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isPlanDropdownOpen, setIsPlanDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const planDropdownRef = useRef(null);
 
-  // Nolasa plānu no URL vai planSelected eventa
-  useEffect(() => {
-    const applyPlan = (planValue) => {
-      if (planValue) {
-        setFormData((prev) => ({ ...prev, plan: planValue }));
-      }
+    // Nolasa plānu no URL vai planSelected eventa
+    useEffect(() => {
+        const applyPlan = (planValue) => {
+            if (planValue) {
+                setFormData((prev) => ({ ...prev, plan: planValue }));
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        applyPlan(params.get("plan"));
+
+        const handlePlanSelected = (e) => applyPlan(e.detail.plan);
+        window.addEventListener("planSelected", handlePlanSelected);
+        return () =>
+            window.removeEventListener("planSelected", handlePlanSelected);
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setIsDropdownOpen(false);
+                handleBlur("subject");
+            }
+            if (
+                planDropdownRef.current &&
+                !planDropdownRef.current.contains(event.target)
+            ) {
+                setIsPlanDropdownOpen(false);
+                handleBlur("plan");
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () =>
+            document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const validate = () => {
+        const newErrors = {};
+        if (!formData.name.trim()) newErrors.name = t("contact_err_name");
+        if (!formData.email.trim())
+            newErrors.email = t("contact_err_email_req");
+        else if (!/\S+@\S+\.\S+/.test(formData.email))
+            newErrors.email = t("contact_err_email_inv");
+        if (!formData.message.trim())
+            newErrors.message = t("contact_err_message");
+        return newErrors;
     };
 
-    // No URL parametra (pēc lapas ielādes)
-    const params = new URLSearchParams(window.location.search);
-    applyPlan(params.get("plan"));
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+        if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+    };
 
-    // No custom eventa (scroll bez lapas pārlādes)
-    const handlePlanSelected = (e) => applyPlan(e.detail.plan);
-    window.addEventListener("planSelected", handlePlanSelected);
-    return () => window.removeEventListener("planSelected", handlePlanSelected);
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleSelectSubject = (value) => {
+        setFormData((prev) => ({ ...prev, subject: value }));
+        if (errors.subject) setErrors((prev) => ({ ...prev, subject: "" }));
         setIsDropdownOpen(false);
-        handleBlur("subject");
-      }
-      if (planDropdownRef.current && !planDropdownRef.current.contains(event.target)) {
-        setIsPlanDropdownOpen(false);
-        handleBlur("plan");
-      }
+        handleFocus("subject");
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
-  const validate = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = t("contact_err_name");
-    if (!formData.email.trim()) newErrors.email = t("contact_err_email_req");
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = t("contact_err_email_inv");
-    if (!formData.message.trim()) newErrors.message = t("contact_err_message");
-    return newErrors;
-  };
+    const handleSelectPlan = (value) => {
+        setFormData((prev) => ({ ...prev, plan: value }));
+        setIsPlanDropdownOpen(false);
+        handleFocus("plan");
+    };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
+    const handleFocus = (name) =>
+        setFocused((prev) => ({ ...prev, [name]: true }));
+    const handleBlur = (name) =>
+        setFocused((prev) => ({ ...prev, [name]: false }));
 
-  const handleSelectSubject = (value) => {
-    setFormData((prev) => ({ ...prev, subject: value }));
-    if (errors.subject) setErrors((prev) => ({ ...prev, subject: "" }));
-    setIsDropdownOpen(false);
-    handleFocus("subject");
-  };
+    const handleSubmit = async (e) => {
+        e?.preventDefault();
+        setSubmitError("");
 
-  const handleSelectPlan = (value) => {
-    setFormData((prev) => ({ ...prev, plan: value }));
-    setIsPlanDropdownOpen(false);
-    handleFocus("plan");
-  };
+        // Client-side cooldown — prevents double-submits and casual abuse
+        const lastSubmit = sessionStorage.getItem("lastSubmit");
+        if (lastSubmit && Date.now() - Number(lastSubmit) < 30_000) {
+            setSubmitError(t("contact_err_too_fast"));
+            return;
+        }
 
-  const handleFocus = (name) =>
-    setFocused((prev) => ({ ...prev, [name]: true }));
-  const handleBlur = (name) =>
-    setFocused((prev) => ({ ...prev, [name]: false }));
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1800));
-    setLoading(false);
-    setSubmitted(true);
-  };
+        setLoading(true);
 
-  const handleReset = () => {
-    setSubmitted(false);
-    setFormData({ name: "", email: "", company: "", subject: "", plan: "", message: "" });
-    setErrors({});
-  };
+        try {
+            const payload = {
+                access_key: WEB3FORMS_KEY,
+                // This subject line appears in your inbox
+                subject: `New contact from ${formData.name}${formData.subject ? ` — ${formData.subject}` : ""}`,
+                // All your form fields
+                name: formData.name,
+                email: formData.email,
+                company: formData.company || "—",
+                topic: formData.subject || "—",
+                plan: formData.plan || "—",
+                message: formData.message,
+                // Stops spam bots (honeypot) — Web3Forms ignores submissions that fill this
+                botcheck: "",
+            };
 
-  const contactMethods = [
-    {
-      icon: "fa-solid fa-envelope",
-      label: t("contact_method_email"),
-      value: "info@openoura.com",
-    },
-    {
-      icon: "fa-solid fa-phone",
-      label: t("contact_method_phone"),
-      value: "+371 20 510 502",
-    },
-    {
-      icon: "fa-solid fa-location-dot",
-      label: t("contact_method_address"),
-      value: t("contact_method_address_value"),
-    },
-  ];
+            const res = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
 
-  const subjectOptions = [
-    { value: "demo", label: t("contact_subj_demo") },
-    { value: "pricing", label: t("contact_subj_pricing") },
-    { value: "support", label: t("contact_subj_support") },
-    { value: "partnership", label: t("contact_subj_partnership") },
-    { value: "other", label: t("contact_subj_other") },
-  ];
+            const data = await res.json();
 
-  const planOptions = [
-    { value: "1–10",   label: t("contact_plan_1_10") },
-    { value: "11–25",  label: t("contact_plan_11_25") },
-    { value: "26–50",  label: t("contact_plan_26_50") },
-    { value: "51–75",  label: t("contact_plan_51_75") },
-    { value: "76–100", label: t("contact_plan_76_100") },
-    { value: "100+",   label: t("contact_plan_100plus") },
-  ];
+            if (data.success) {
+                sessionStorage.setItem("lastSubmit", String(Date.now()));
+                setSubmitted(true);
+            } else {
+                // Web3Forms returns a message field on failure
+                setSubmitError(data.message || t("contact_err_generic"));
+            }
+        } catch {
+            setSubmitError(t("contact_err_network"));
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <section className="contact" id="contact">
-      <div className="contact-blur-glow contact-blur-1"></div>
-      <div className="contact-blur-glow contact-blur-2"></div>
+    const handleReset = () => {
+        setSubmitted(false);
+        setSubmitError("");
+        setFormData({
+            name: "",
+            email: "",
+            company: "",
+            subject: "",
+            plan: "",
+            message: "",
+        });
+        setErrors({});
+    };
 
-      <div className="contact-container">
-        <div className="contact-info">
-          <h2 className="contact-title animate-slide-up">
-            {t("contact_title_1")} <br />
-            <span className="text-gradient">{t("contact_title_2")}</span>
-          </h2>
+    const contactMethods = [
+        {
+            icon: "fa-solid fa-envelope",
+            label: t("contact_method_email"),
+            value: "info@openoura.com",
+        },
+        {
+            icon: "fa-solid fa-phone",
+            label: t("contact_method_phone"),
+            value: "+371 20 510 502",
+        },
+        {
+            icon: "fa-solid fa-location-dot",
+            label: t("contact_method_address"),
+            value: t("contact_method_address_value"),
+        },
+    ];
 
-          <p className="contact-subtitle animate-slide-up-delayed">
-            {t("contact_subtitle")}
-          </p>
+    const subjectOptions = [
+        { value: "demo", label: t("contact_subj_demo") },
+        { value: "pricing", label: t("contact_subj_pricing") },
+        { value: "support", label: t("contact_subj_support") },
+        { value: "partnership", label: t("contact_subj_partnership") },
+        { value: "other", label: t("contact_subj_other") },
+    ];
 
-          <div className="contact-methods animate-fade-in-delayed">
-            {contactMethods.map((method, i) => (
-              <div className="contact-method" key={i}>
-                <div className="method-icon">
-                  <i className={method.icon}></i>
-                </div>
-                <div className="method-info">
-                  <span className="method-label">{method.label}</span>
-                  <span className="method-value">{method.value}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+    const planOptions = [
+        { value: "1–10", label: t("contact_plan_1_10") },
+        { value: "11–25", label: t("contact_plan_11_25") },
+        { value: "26–50", label: t("contact_plan_26_50") },
+        { value: "51–75", label: t("contact_plan_51_75") },
+        { value: "76–100", label: t("contact_plan_76_100") },
+        { value: "100+", label: t("contact_plan_100plus") },
+    ];
 
-        <div className="contact-form-wrapper animate-slide-up">
-          <div className="glass-card form-card">
-            <div className="card-header">
-              <div className="dot red"></div>
-              <div className="dot yellow"></div>
-              <div className="dot green"></div>
-              <span className="card-header-title">
-                {t("contact_form_title")}
-              </span>
-            </div>
+    return (
+        <section className="contact" id="contact">
+            <div className="contact-blur-glow contact-blur-1"></div>
+            <div className="contact-blur-glow contact-blur-2"></div>
 
-            {submitted ? (
-              <div className="success-state">
-                <div className="success-icon">
-                  <i className="fa-solid fa-circle-check"></i>
-                </div>
-                <h3>{t("contact_success_title")}</h3>
-                <p>{t("contact_success_desc")}</p>
-                <div onClick={handleReset}>
-                  <PrimaryButton
-                    icon={<i className="fa-solid fa-arrow-rotate-left"></i>}
-                    btnText={t("contact_btn_send_another")}
-                  />
-                </div>
-              </div>
-            ) : (
-              <form className="contact-form" onSubmit={handleSubmit} noValidate>
-                <div className="form-row">
-                  <div
-                    className={`form-group ${focused.name ? "focused" : ""} ${errors.name ? "error" : ""} ${formData.name ? "filled" : ""}`}
-                  >
-                    <label htmlFor="name">
-                      <i className="fa-solid fa-user"></i>{" "}
-                      {t("contact_label_name")}
-                    </label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={handleChange}
-                      onFocus={() => handleFocus("name")}
-                      onBlur={() => handleBlur("name")}
-                      placeholder={t("contact_ph_name")}
-                      autoComplete="name"
-                    />
-                    {errors.name && (
-                      <span className="field-error">
-                        <i className="fa-solid fa-triangle-exclamation"></i>{" "}
-                        {errors.name}
-                      </span>
-                    )}
-                  </div>
-
-                  <div
-                    className={`form-group ${focused.email ? "focused" : ""} ${errors.email ? "error" : ""} ${formData.email ? "filled" : ""}`}
-                  >
-                    <label htmlFor="email">
-                      <i className="fa-solid fa-envelope"></i>{" "}
-                      {t("contact_label_email")}
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      onFocus={() => handleFocus("email")}
-                      onBlur={() => handleBlur("email")}
-                      placeholder={t("contact_ph_email")}
-                      autoComplete="email"
-                    />
-                    {errors.email && (
-                      <span className="field-error">
-                        <i className="fa-solid fa-triangle-exclamation"></i>{" "}
-                        {errors.email}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div
-                    className={`form-group ${focused.company ? "focused" : ""} ${formData.company ? "filled" : ""}`}
-                  >
-                    <label htmlFor="company">
-                      <i className="fa-solid fa-building"></i>{" "}
-                      {t("contact_label_company")}
-                    </label>
-                    <input
-                      id="company"
-                      name="company"
-                      type="text"
-                      value={formData.company}
-                      onChange={handleChange}
-                      onFocus={() => handleFocus("company")}
-                      onBlur={() => handleBlur("company")}
-                      placeholder={t("contact_ph_company")}
-                      autoComplete="organization"
-                    />
-                  </div>
-
-                  <div
-                    className={`form-group ${focused.subject || isDropdownOpen ? "focused" : ""} ${formData.subject ? "filled" : ""}`}
-                    ref={dropdownRef}
-                  >
-                    <label>
-                      <i className="fa-solid fa-tag"></i>{" "}
-                      {t("contact_label_subject")}
-                    </label>
-                    <div className="custom-select-wrapper">
-                      <div
-                        className={`custom-select-trigger ${isDropdownOpen ? "active" : ""}`}
-                        onClick={() => {
-                          setIsDropdownOpen(!isDropdownOpen);
-                          handleFocus("subject");
-                        }}
-                      >
-                        <span className={!formData.subject ? "placeholder" : ""}>
-                          {formData.subject
-                            ? subjectOptions.find((opt) => opt.value === formData.subject)?.label
-                            : t("contact_subj_placeholder")}
+            <div className="contact-container">
+                <div className="contact-info">
+                    <h2 className="contact-title animate-slide-up">
+                        {t("contact_title_1")} <br />
+                        <span className="text-gradient">
+                            {t("contact_title_2")}
                         </span>
-                        <i className={`fa-solid fa-chevron-down select-arrow ${isDropdownOpen ? "rotated" : ""}`}></i>
-                      </div>
+                    </h2>
 
-                      {isDropdownOpen && (
-                        <div className="custom-options-menu animate-fade-in-fast">
-                          {subjectOptions.map((option) => (
-                            <div
-                              key={option.value}
-                              className={`custom-option ${formData.subject === option.value ? "selected" : ""}`}
-                              onClick={() => handleSelectSubject(option.value)}
-                            >
-                              {option.label}
+                    <p className="contact-subtitle animate-slide-up-delayed">
+                        {t("contact_subtitle")}
+                    </p>
+
+                    <div className="contact-methods animate-fade-in-delayed">
+                        {contactMethods.map((method, i) => (
+                            <div className="contact-method" key={i}>
+                                <div className="method-icon">
+                                    <i className={method.icon}></i>
+                                </div>
+                                <div className="method-info">
+                                    <span className="method-label">
+                                        {method.label}
+                                    </span>
+                                    <span className="method-value">
+                                        {method.value}
+                                    </span>
+                                </div>
                             </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Plāna izvēles lauks */}
-                <div
-                  className={`form-group plan-field ${focused.plan || isPlanDropdownOpen ? "focused" : ""} ${formData.plan ? "filled" : ""}`}
-                  ref={planDropdownRef}
-                >
-                  <label>
-                    <i className="fa-solid fa-users"></i>{" "}
-                    {t("contact_label_plan")}
-                    <span className="plan-label-badge">{t("contact_plan_auto")}</span>
-                  </label>
-                  <div className="custom-select-wrapper">
-                    <div
-                      className={`custom-select-trigger plan-trigger ${isPlanDropdownOpen ? "active" : ""} ${formData.plan ? "plan-selected" : ""}`}
-                      onClick={() => {
-                        setIsPlanDropdownOpen(!isPlanDropdownOpen);
-                        handleFocus("plan");
-                      }}
-                    >
-                      <div className="plan-trigger-left">
-                        {formData.plan ? (
-                          <>
-                            <span className="plan-trigger-range">{formData.plan}</span>
-                            <span className="plan-trigger-label">
-                              {planOptions.find((o) => o.value === formData.plan)?.label}
-                            </span>
-                          </>
-                        ) : (
-                          <span className="placeholder">{t("contact_plan_placeholder")}</span>
-                        )}
-                      </div>
-                      <i className={`fa-solid fa-chevron-down select-arrow ${isPlanDropdownOpen ? "rotated" : ""}`}></i>
-                    </div>
-
-                    {isPlanDropdownOpen && (
-                      <div className="custom-options-menu animate-fade-in-fast">
-                        {planOptions.map((option) => (
-                          <div
-                            key={option.value}
-                            className={`custom-option plan-option ${formData.plan === option.value ? "selected" : ""}`}
-                            onClick={() => handleSelectPlan(option.value)}
-                          >
-                            <span className="plan-option-range">{option.value}</span>
-                            <span className="plan-option-label">{option.label}</span>
-                          </div>
                         ))}
-                      </div>
-                    )}
-                  </div>
+                    </div>
                 </div>
 
-                <div
-                  className={`form-group full-width ${focused.message ? "focused" : ""} ${errors.message ? "error" : ""} ${formData.message ? "filled" : ""}`}
-                >
-                  <label htmlFor="message">
-                    <i className="fa-solid fa-comment-dots"></i>{" "}
-                    {t("contact_label_message")}
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    onFocus={() => handleFocus("message")}
-                    onBlur={() => handleBlur("message")}
-                    placeholder={t("contact_ph_message")}
-                  />
-                  <span className="char-count">
-                    {formData.message.length} / 1000
-                  </span>
-                  {errors.message && (
-                    <span className="field-error">
-                      <i className="fa-solid fa-triangle-exclamation"></i>{" "}
-                      {errors.message}
-                    </span>
-                  )}
-                </div>
+                <div className="contact-form-wrapper animate-slide-up">
+                    <div className="glass-card form-card">
+                        <div className="card-header">
+                            <div className="dot red"></div>
+                            <div className="dot yellow"></div>
+                            <div className="dot green"></div>
+                            <span className="card-header-title">
+                                {t("contact_form_title")}
+                            </span>
+                        </div>
 
-                <div
-                  className="submit-btn-wrapper"
-                  onClick={!loading ? handleSubmit : undefined}
-                >
-                  {loading ? (
-                    <button className="btn-loading" disabled>
-                      <span className="spinner"></span>
-                      {t("contact_btn_sending")}
-                    </button>
-                  ) : (
-                    <PrimaryButton
-                      icon={<i className="fa-solid fa-paper-plane"></i>}
-                      btnText={t("contact_btn_send")}
-                      fullWidth={true}
-                    />
-                  )}
-                </div>
+                        {submitted ? (
+                            <div className="success-state">
+                                <div className="success-icon">
+                                    <i className="fa-solid fa-circle-check"></i>
+                                </div>
+                                <h3>{t("contact_success_title")}</h3>
+                                <p>{t("contact_success_desc")}</p>
+                                <div onClick={handleReset}>
+                                    <PrimaryButton
+                                        icon={
+                                            <i className="fa-solid fa-arrow-rotate-left"></i>
+                                        }
+                                        btnText={t("contact_btn_send_another")}
+                                    />
+                                </div>
+                            </div>
+                        ) : (
+                            <form
+                                className="contact-form"
+                                onSubmit={handleSubmit}
+                                noValidate>
+                                {/* Honeypot — hidden from real users, traps bots */}
+                                <input
+                                    type="checkbox"
+                                    name="botcheck"
+                                    style={{ display: "none" }}
+                                />
 
-                <p className="form-note">
-                  <i className="fa-solid fa-shield-halved"></i>
-                  {t("contact_note_privacy")}
-                </p>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+                                <div className="form-row">
+                                    <div
+                                        className={`form-group ${focused.name ? "focused" : ""} ${errors.name ? "error" : ""} ${formData.name ? "filled" : ""}`}>
+                                        <label htmlFor="name">
+                                            <i className="fa-solid fa-user"></i>{" "}
+                                            {t("contact_label_name")}
+                                        </label>
+                                        <input
+                                            id="name"
+                                            name="name"
+                                            type="text"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            onFocus={() => handleFocus("name")}
+                                            onBlur={() => handleBlur("name")}
+                                            placeholder={t("contact_ph_name")}
+                                            autoComplete="name"
+                                        />
+                                        {errors.name && (
+                                            <span className="field-error">
+                                                <i className="fa-solid fa-triangle-exclamation"></i>{" "}
+                                                {errors.name}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <div
+                                        className={`form-group ${focused.email ? "focused" : ""} ${errors.email ? "error" : ""} ${formData.email ? "filled" : ""}`}>
+                                        <label htmlFor="email">
+                                            <i className="fa-solid fa-envelope"></i>{" "}
+                                            {t("contact_label_email")}
+                                        </label>
+                                        <input
+                                            id="email"
+                                            name="email"
+                                            type="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            onFocus={() => handleFocus("email")}
+                                            onBlur={() => handleBlur("email")}
+                                            placeholder={t("contact_ph_email")}
+                                            autoComplete="email"
+                                        />
+                                        {errors.email && (
+                                            <span className="field-error">
+                                                <i className="fa-solid fa-triangle-exclamation"></i>{" "}
+                                                {errors.email}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="form-row">
+                                    <div
+                                        className={`form-group ${focused.company ? "focused" : ""} ${formData.company ? "filled" : ""}`}>
+                                        <label htmlFor="company">
+                                            <i className="fa-solid fa-building"></i>{" "}
+                                            {t("contact_label_company")}
+                                        </label>
+                                        <input
+                                            id="company"
+                                            name="company"
+                                            type="text"
+                                            value={formData.company}
+                                            onChange={handleChange}
+                                            onFocus={() =>
+                                                handleFocus("company")
+                                            }
+                                            onBlur={() => handleBlur("company")}
+                                            placeholder={t(
+                                                "contact_ph_company",
+                                            )}
+                                            autoComplete="organization"
+                                        />
+                                    </div>
+
+                                    <div
+                                        className={`form-group ${focused.subject || isDropdownOpen ? "focused" : ""} ${formData.subject ? "filled" : ""}`}
+                                        ref={dropdownRef}>
+                                        <label>
+                                            <i className="fa-solid fa-tag"></i>{" "}
+                                            {t("contact_label_subject")}
+                                        </label>
+                                        <div className="custom-select-wrapper">
+                                            <div
+                                                className={`custom-select-trigger ${isDropdownOpen ? "active" : ""}`}
+                                                onClick={() => {
+                                                    setIsDropdownOpen(
+                                                        !isDropdownOpen,
+                                                    );
+                                                    handleFocus("subject");
+                                                }}>
+                                                <span
+                                                    className={
+                                                        !formData.subject
+                                                            ? "placeholder"
+                                                            : ""
+                                                    }>
+                                                    {formData.subject
+                                                        ? subjectOptions.find(
+                                                              (opt) =>
+                                                                  opt.value ===
+                                                                  formData.subject,
+                                                          )?.label
+                                                        : t(
+                                                              "contact_subj_placeholder",
+                                                          )}
+                                                </span>
+                                                <i
+                                                    className={`fa-solid fa-chevron-down select-arrow ${isDropdownOpen ? "rotated" : ""}`}></i>
+                                            </div>
+
+                                            {isDropdownOpen && (
+                                                <div className="custom-options-menu animate-fade-in-fast">
+                                                    {subjectOptions.map(
+                                                        (option) => (
+                                                            <div
+                                                                key={
+                                                                    option.value
+                                                                }
+                                                                className={`custom-option ${formData.subject === option.value ? "selected" : ""}`}
+                                                                onClick={() =>
+                                                                    handleSelectSubject(
+                                                                        option.value,
+                                                                    )
+                                                                }>
+                                                                {option.label}
+                                                            </div>
+                                                        ),
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Plāna izvēles lauks */}
+                                <div
+                                    className={`form-group plan-field ${focused.plan || isPlanDropdownOpen ? "focused" : ""} ${formData.plan ? "filled" : ""}`}
+                                    ref={planDropdownRef}>
+                                    <label>
+                                        <i className="fa-solid fa-users"></i>{" "}
+                                        {t("contact_label_plan")}
+                                        <span className="plan-label-badge">
+                                            {t("contact_plan_auto")}
+                                        </span>
+                                    </label>
+                                    <div className="custom-select-wrapper">
+                                        <div
+                                            className={`custom-select-trigger plan-trigger ${isPlanDropdownOpen ? "active" : ""} ${formData.plan ? "plan-selected" : ""}`}
+                                            onClick={() => {
+                                                setIsPlanDropdownOpen(
+                                                    !isPlanDropdownOpen,
+                                                );
+                                                handleFocus("plan");
+                                            }}>
+                                            <div className="plan-trigger-left">
+                                                {formData.plan ? (
+                                                    <>
+                                                        <span className="plan-trigger-range">
+                                                            {formData.plan}
+                                                        </span>
+                                                        <span className="plan-trigger-label">
+                                                            {
+                                                                planOptions.find(
+                                                                    (o) =>
+                                                                        o.value ===
+                                                                        formData.plan,
+                                                                )?.label
+                                                            }
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    <span className="placeholder">
+                                                        {t(
+                                                            "contact_plan_placeholder",
+                                                        )}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <i
+                                                className={`fa-solid fa-chevron-down select-arrow ${isPlanDropdownOpen ? "rotated" : ""}`}></i>
+                                        </div>
+
+                                        {isPlanDropdownOpen && (
+                                            <div className="custom-options-menu animate-fade-in-fast">
+                                                {planOptions.map((option) => (
+                                                    <div
+                                                        key={option.value}
+                                                        className={`custom-option plan-option ${formData.plan === option.value ? "selected" : ""}`}
+                                                        onClick={() =>
+                                                            handleSelectPlan(
+                                                                option.value,
+                                                            )
+                                                        }>
+                                                        <span className="plan-option-range">
+                                                            {option.value}
+                                                        </span>
+                                                        <span className="plan-option-label">
+                                                            {option.label}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div
+                                    className={`form-group full-width ${focused.message ? "focused" : ""} ${errors.message ? "error" : ""} ${formData.message ? "filled" : ""}`}>
+                                    <label htmlFor="message">
+                                        <i className="fa-solid fa-comment-dots"></i>{" "}
+                                        {t("contact_label_message")}
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        rows={5}
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        onFocus={() => handleFocus("message")}
+                                        onBlur={() => handleBlur("message")}
+                                        placeholder={t("contact_ph_message")}
+                                    />
+                                    <span className="char-count">
+                                        {formData.message.length} / 1000
+                                    </span>
+                                    {errors.message && (
+                                        <span className="field-error">
+                                            <i className="fa-solid fa-triangle-exclamation"></i>{" "}
+                                            {errors.message}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* Network / API error */}
+                                {submitError && (
+                                    <div className="submit-error">
+                                        <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                                        {submitError}
+                                    </div>
+                                )}
+
+                                <div
+                                    className="submit-btn-wrapper"
+                                    onClick={
+                                        !loading ? handleSubmit : undefined
+                                    }>
+                                    {loading ? (
+                                        <button
+                                            className="btn-loading"
+                                            disabled>
+                                            <span className="spinner"></span>
+                                            {t("contact_btn_sending")}
+                                        </button>
+                                    ) : (
+                                        <PrimaryButton
+                                            icon={
+                                                <i className="fa-solid fa-paper-plane"></i>
+                                            }
+                                            btnText={t("contact_btn_send")}
+                                            fullWidth={true}
+                                        />
+                                    )}
+                                </div>
+
+                                <p className="form-note">
+                                    <i className="fa-solid fa-shield-halved"></i>
+                                    {t("contact_note_privacy")}
+                                </p>
+                            </form>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 }
 
 export default Contact;

@@ -1,302 +1,359 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import { useTranslation } from "react-i18next";
 import PrimaryButton from "../Buttons/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../Buttons/SecondaryButton/SecondaryButton";
 
-function Navbar() {
-  const { t, i18n } = useTranslation();
-  const [loaded, setLoaded] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [scrollDir, setScrollDir] = useState("up");
-  const [lastScroll, setLastScroll] = useState(0);
-  const [scrolled, setScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+const BREAKPOINT = 1200;
+const SECTIONS = [
+    "home",
+    "shift",
+    "how-it-works",
+    "testimonials",
+    "pricing",
+    "contact",
+];
 
-  useEffect(() => {
-    setLoaded(true);
+export default function Navbar() {
+    const { t, i18n } = useTranslation();
 
-    // Detect mobile
-    const checkMobile = () => setIsMobile(window.innerWidth <= 1100);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+    const [mounted, setMounted] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [langOpen, setLangOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState("home");
+    const [scrolled, setScrolled] = useState(false);
+    const [scrollDir, setScrollDir] = useState("up");
+    const [progress, setProgress] = useState(0);
+    const [isDesktop, setIsDesktop] = useState(false);
 
-    const handleScroll = () => {
-      const currentScroll = window.scrollY;
+    const langRef = useRef(null);
+    const lastScroll = useRef(0);
 
-      setLastScroll((prev) => {
-        setScrollDir(currentScroll > prev ? "down" : "up");
-        return currentScroll;
-      });
+    useEffect(() => {
+        setMounted(true);
+        setIsDesktop(window.innerWidth >= BREAKPOINT);
 
-      setScrolled(currentScroll > 20);
+        const onResize = () => {
+            const desktop = window.innerWidth >= BREAKPOINT;
+            setIsDesktop(desktop);
+            if (desktop) setDrawerOpen(false);
+        };
 
-      const height =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      setScrollProgress((currentScroll / height) * 100);
+        const onScroll = () => {
+            const y = window.scrollY;
+            const max =
+                document.documentElement.scrollHeight - window.innerHeight;
+            setScrolled(y > 30);
+            setScrollDir(y > lastScroll.current ? "down" : "up");
+            setProgress(max > 0 ? (y / max) * 100 : 0);
+            lastScroll.current = y;
 
-      const sections = [
-        "home",
-        "shift",
-        "how-it-works",
-        "testimonials",
-        "pricing",
-        "contact",
-      ];
-      const scrollPosition = currentScroll + 150;
+            const offset = y + 120;
+            for (const id of SECTIONS) {
+                const el = document.getElementById(id);
+                if (
+                    el &&
+                    offset >= el.offsetTop &&
+                    offset < el.offsetTop + el.offsetHeight
+                ) {
+                    setActiveSection(id);
+                }
+            }
+        };
 
-      sections.forEach((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const sectionHeight = element.offsetHeight;
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + sectionHeight
-          ) {
-            setActiveSection(section);
-          }
-        }
-      });
+        const onClickOutside = (e) => {
+            if (langRef.current && !langRef.current.contains(e.target))
+                setLangOpen(false);
+        };
+
+        window.addEventListener("resize", onResize, { passive: true });
+        window.addEventListener("scroll", onScroll, { passive: true });
+        document.addEventListener("mousedown", onClickOutside);
+        return () => {
+            window.removeEventListener("resize", onResize);
+            window.removeEventListener("scroll", onScroll);
+            document.removeEventListener("mousedown", onClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
+        document.body.style.overflow = drawerOpen ? "hidden" : "";
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [drawerOpen]);
+
+    const scrollTo = (id) => {
+        setDrawerOpen(false);
+        setActiveSection(id);
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", checkMobile);
-    };
-  }, []);
-
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-      document.body.style.touchAction = "none";
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.touchAction = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      document.body.style.touchAction = "";
-    };
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest(".lang-custom-dropdown")) {
+    const changeLang = (code) => {
+        i18n.changeLanguage(code);
         setLangOpen(false);
-      }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    setLangOpen(false);
-  };
+    const hideBar = isDesktop && scrollDir === "down" && scrolled;
 
-  const handleNavClick = (section) => {
-    setActiveSection(section);
-    setMobileMenuOpen(false);
-    document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
-  };
+    const NAV_ITEMS = [
+        { id: "home", icon: "fa-house", label: t("home") },
+        { id: "shift", icon: "fa-layer-group", label: t("introduction") },
+        { id: "how-it-works", icon: "fa-book", label: t("how") },
+        { id: "testimonials", icon: "fa-star", label: t("testimonials") },
+        { id: "pricing", icon: "fa-tag", label: t("pricing") },
+        { id: "contact", icon: "fa-envelope", label: t("contact") },
+        {
+            id: "coming-soon",
+            icon: "fa-clock",
+            label: t("coming_soon"),
+            special: true,
+        },
+    ];
 
-  const menuItems = [
-    { icon: "fa-house", label: t("home"), section: "home" },
-    { icon: "fa-layer-group", label: t("introduction"), section: "shift" },
-    { icon: "fa-book", label: t("how"), section: "how-it-works" },
-    { icon: "fa-star", label: t("testimonials"), section: "testimonials" },
-    { icon: "fa-tag", label: t("pricing"), section: "pricing" },
-    { icon: "fa-envelope", label: t("contact"), section: "contact" },
-    {
-      icon: "fa-clock",
-      label: t("coming_soon"),
-      section: "coming-soon",
-      comingSoon: true,
-    },
-  ];
+    const LANGS = [
+        { code: "lv", name: "Latviešu", flag: "🇱🇻" },
+        { code: "en", name: "English", flag: "🇬🇧" },
+    ];
 
-  const languages = [
-    { code: "lv", name: "Latviešu", flag: "🇱🇻" },
-    { code: "en", name: "English", flag: "🇬🇧" },
-  ];
-
-  // On mobile — never hide navbar
-  const isHidden = !isMobile && scrollDir === "down" && scrolled;
-
-  return (
-    <>
-      <div
-        className="nav-progress-bar"
-        style={{ width: `${scrollProgress}%` }}
-      />
-
-      <nav
-        className={`navbar ${loaded ? "nav-visible" : ""} ${isHidden ? "navbar-hidden" : ""} ${scrolled ? "navbar-scrolled" : ""}`}
-      >
-        <div className="nav-container">
-          <div
-            className="nav-logo animate-nav-item"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            title="Back to top"
-          >
-            <img src="/openoura_landing_page/openoura_logo_sm.png" alt="Logo" />
-            <div className="logo-glow" />
-          </div>
-
-          <nav className="nav-links animate-nav-item delay-2" aria-label="Main navigation">
-            {menuItems.map((item) => (
-              <a
-                key={item.section}
-                href={`#${item.section}`}
-                className={`nav-link ${activeSection === item.section ? "active" : ""} ${item.comingSoon ? "nav-link-special" : ""}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(item.section);
-                }}
-              >
-                <i className={`fa-solid ${item.icon} ${item.comingSoon ? "ticking-clock" : ""}`} />
-                <span>{item.label}</span>
-                {activeSection === item.section && (
-                  <span className="nav-link-indicator" />
-                )}
-              </a>
-            ))}
-          </nav>
-
-          <div className="nav-actions animate-nav-item delay-4">
-            <div className="nav-actions-buttons-wrapper">
-              <SecondaryButton
-                btnText={t("login")}
-                icon={<i className="fa-solid fa-arrow-right-to-bracket" />}
-                onClick={() => {}}
-              />
-              <PrimaryButton
-                btnText={t("get_started")}
-                icon={<i className="fa-solid fa-rocket" />}
-              />
-            </div>
-            <div className="lang-custom-dropdown">
-              <div
-                className={`lang-selected-wrapper ${langOpen ? "active" : ""}`}
-                onClick={() => setLangOpen(!langOpen)}
-                aria-label="Select language"
-              >
-                <i className="fa-solid fa-globe globe-icon" />
-                <span className="lang-code-text">{i18n.language.toUpperCase()}</span>
-                <i className="fa-solid fa-chevron-down lang-arrow" />
-              </div>
-
-              <div className={`lang-options-list ${langOpen ? "visible" : ""}`}>
-                {languages.map((lang) => (
-                  <div
-                    key={lang.code}
-                    className={`lang-opt ${i18n.language === lang.code ? "selected" : ""}`}
-                    onClick={() => changeLanguage(lang.code)}
-                  >
-                    <span className="lang-flag">{lang.flag}</span>
-                    <span className="lang-name">{lang.name}</span>
-                    {i18n.language === lang.code && (
-                      <i className="fa-solid fa-circle-check" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="mobile-nav-right">
-            <button
-              className="hamburger-menu"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileMenuOpen}
-            >
-              <div className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`} />
-              <div className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`} />
-              <div className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`} />
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      <div
-        className={`mobile-menu-overlay ${mobileMenuOpen ? "open" : ""}`}
-        onClick={() => setMobileMenuOpen(false)}
-      >
-        <div className="mobile-menu-content" onClick={(e) => e.stopPropagation()}>
-          <div className="mobile-menu-header">
-            <img
-              src="/openoura_landing_page/openoura_logo_sm.png"
-              alt="Logo"
-              className="mobile-logo"
+    return (
+        <>
+            {/* Progress bar */}
+            <div
+                className="nb-progress"
+                style={{ width: `${progress}%` }}
+                aria-hidden="true"
             />
-          </div>
 
-          <div className="mobile-menu-items">
-            {menuItems.map((item, index) => (
-              <a
-                key={item.section}
-                href={`#${item.section}`}
-                className={`mobile-menu-item ${activeSection === item.section ? "active" : ""} ${item.comingSoon ? "mobile-special" : ""}`}
-                style={{ animationDelay: `${index * 0.07}s` }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(item.section);
-                }}
-              >
-                <i className={`fa-solid ${item.icon} ${item.comingSoon ? "ticking-clock" : ""}`} />
-                <span>{item.label}</span>
-                {activeSection === item.section && (
-                  <i className="fa-solid fa-chevron-right" />
-                )}
-              </a>
-            ))}
-          </div>
+            {/* Navbar */}
+            <header
+                className={[
+                    "nb",
+                    mounted ? "nb--on" : "",
+                    scrolled ? "nb--scrolled" : "",
+                    hideBar ? "nb--hidden" : "",
+                    drawerOpen && !isDesktop ? "nb--drawer-open" : "",
+                ]
+                    .filter(Boolean)
+                    .join(" ")}>
+                <div className="nb__inner">
+                    <button
+                        className="nb__logo"
+                        onClick={() =>
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                        }
+                        aria-label="Back to top">
+                        <img
+                            src="/openoura_landing_page/openoura_logo_sm.png"
+                            alt="Openoura"
+                        />
+                    </button>
 
-          <div className="mobile-menu-actions">
-            <SecondaryButton
-              btnText={t("login")}
-              icon={<i className="fa-solid fa-arrow-right-to-bracket" />}
-              fullWidth={true}
-            />
-            <PrimaryButton
-              btnText={t("get_started")}
-              icon={<i className="fa-solid fa-rocket" />}
-              fullWidth={true}
-            />
-          </div>
+                    <nav className="nb__links" aria-label="Main navigation">
+                        {NAV_ITEMS.map((item) => (
+                            <a
+                                key={item.id}
+                                href={`#${item.id}`}
+                                className={[
+                                    "nb__link",
+                                    activeSection === item.id
+                                        ? "nb__link--active"
+                                        : "",
+                                    item.special ? "nb__link--special" : "",
+                                ]
+                                    .filter(Boolean)
+                                    .join(" ")}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    scrollTo(item.id);
+                                }}>
+                                <i
+                                    className={`fa-solid ${item.icon}`}
+                                    aria-hidden="true"
+                                />
+                                <span>{item.label}</span>
+                            </a>
+                        ))}
+                    </nav>
 
-          <div className="mobile-lang-container">
-            <p className="mobile-lang-label">{t("select_language")}</p>
-            <div className="mobile-lang-list">
-              {languages.map((lang) => (
-                <div
-                  key={lang.code}
-                  className={`mobile-lang-item ${i18n.language === lang.code ? "active" : ""}`}
-                  onClick={() => changeLanguage(lang.code)}
-                >
-                  <div className="mobile-lang-info">
-                    <span className="lang-flag">{lang.flag}</span>
-                    <span className="mobile-lang-name">{lang.name}</span>
-                  </div>
-                  {i18n.language === lang.code && (
-                    <i className="fa-solid fa-circle-check" />
-                  )}
+                    <div className="nb__right">
+                        <SecondaryButton
+                            btnText={t("login")}
+                            icon={
+                                <i className="fa-solid fa-arrow-right-to-bracket" />
+                            }
+                            onClick={() => {}}
+                        />
+                        <PrimaryButton
+                            btnText={t("get_started")}
+                            icon={<i className="fa-solid fa-rocket" />}
+                        />
+
+                        <div className="nb__lang" ref={langRef}>
+                            <button
+                                className={`nb__lang-btn${langOpen ? " nb__lang-btn--open" : ""}`}
+                                onClick={() => setLangOpen((v) => !v)}
+                                aria-haspopup="listbox"
+                                aria-expanded={langOpen}
+                                aria-label="Select language">
+                                <i
+                                    className="fa-solid fa-globe"
+                                    aria-hidden="true"
+                                />
+                                <span>{i18n.language.toUpperCase()}</span>
+                                <i
+                                    className="fa-solid fa-chevron-down nb__chevron"
+                                    aria-hidden="true"
+                                />
+                            </button>
+                            <div
+                                className={`nb__lang-drop${langOpen ? " nb__lang-drop--open" : ""}`}
+                                role="listbox">
+                                {LANGS.map((lang) => (
+                                    <button
+                                        key={lang.code}
+                                        role="option"
+                                        aria-selected={
+                                            i18n.language === lang.code
+                                        }
+                                        className={`nb__lang-opt${i18n.language === lang.code ? " nb__lang-opt--on" : ""}`}
+                                        onClick={() => changeLang(lang.code)}>
+                                        <span aria-hidden="true">
+                                            {lang.flag}
+                                        </span>
+                                        <span>{lang.name}</span>
+                                        {i18n.language === lang.code && (
+                                            <i
+                                                className="fa-solid fa-circle-check"
+                                                aria-hidden="true"
+                                            />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        className={`nb__burger${drawerOpen ? " nb__burger--open" : ""}`}
+                        onClick={() => setDrawerOpen((v) => !v)}
+                        aria-label={drawerOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={drawerOpen}
+                        aria-controls="nb-drawer">
+                        <span />
+                        <span />
+                        <span />
+                    </button>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
+            </header>
 
-export default Navbar;
+            {/* Mobile drawer */}
+            <div
+                id="nb-drawer"
+                className={`nb-drawer${drawerOpen ? " nb-drawer--open" : ""}`}
+                aria-hidden={!drawerOpen}>
+                <div
+                    className="nb-drawer__backdrop"
+                    onClick={() => setDrawerOpen(false)}
+                    aria-hidden="true"
+                />
+                <div
+                    className="nb-drawer__panel"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Navigation"
+                    onClick={(e) => e.stopPropagation()}>
+                    <div className="nb-drawer__head">
+                        <span className="nb-drawer__title">MENU</span>
+                        <button
+                            className="nb-drawer__close"
+                            onClick={() => setDrawerOpen(false)}
+                            aria-label="Close">
+                            <i
+                                className="fa-solid fa-xmark"
+                                aria-hidden="true"
+                            />
+                        </button>
+                    </div>
+
+                    <div className="nb-drawer__scroll">
+                        <nav className="nb-drawer__nav">
+                            {NAV_ITEMS.map((item, i) => (
+                                <a
+                                    key={item.id}
+                                    href={`#${item.id}`}
+                                    className={[
+                                        "nb-drawer__item",
+                                        activeSection === item.id
+                                            ? "nb-drawer__item--active"
+                                            : "",
+                                        item.special
+                                            ? "nb-drawer__item--special"
+                                            : "",
+                                    ]
+                                        .filter(Boolean)
+                                        .join(" ")}
+                                    style={{ "--i": i }}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        scrollTo(item.id);
+                                    }}>
+                                    <i
+                                        className={`fa-solid ${item.icon}`}
+                                        aria-hidden="true"
+                                    />
+                                    <span>{item.label}</span>
+                                    {activeSection === item.id && (
+                                        <i
+                                            className="fa-solid fa-chevron-right"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                </a>
+                            ))}
+                        </nav>
+
+                        <div className="nb-drawer__cta">
+                            <SecondaryButton
+                                btnText={t("login")}
+                                icon={
+                                    <i className="fa-solid fa-arrow-right-to-bracket" />
+                                }
+                                fullWidth
+                                onClick={() => {}}
+                            />
+                            <PrimaryButton
+                                btnText={t("get_started")}
+                                icon={<i className="fa-solid fa-rocket" />}
+                                fullWidth
+                            />
+                        </div>
+                    </div>
+
+                    <div className="nb-drawer__lang">
+                        <p className="nb-drawer__lang-heading">
+                            {t("select_language")}
+                        </p>
+                        <div className="nb-drawer__lang-list">
+                            {LANGS.map((lang) => (
+                                <button
+                                    key={lang.code}
+                                    className={`nb-drawer__lang-item${i18n.language === lang.code ? " nb-drawer__lang-item--on" : ""}`}
+                                    onClick={() => changeLang(lang.code)}>
+                                    <span>{lang.flag}</span>
+                                    <span>{lang.name}</span>
+                                    {i18n.language === lang.code && (
+                                        <i
+                                            className="fa-solid fa-circle-check"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+}

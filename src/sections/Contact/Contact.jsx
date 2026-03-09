@@ -11,6 +11,7 @@ function Contact() {
     email: "",
     company: "",
     subject: "",
+    plan: "",
     message: "",
   });
 
@@ -20,13 +21,37 @@ function Contact() {
   const [errors, setErrors] = useState({});
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isPlanDropdownOpen, setIsPlanDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const planDropdownRef = useRef(null);
+
+  // Nolasa plānu no URL vai planSelected eventa
+  useEffect(() => {
+    const applyPlan = (planValue) => {
+      if (planValue) {
+        setFormData((prev) => ({ ...prev, plan: planValue }));
+      }
+    };
+
+    // No URL parametra (pēc lapas ielādes)
+    const params = new URLSearchParams(window.location.search);
+    applyPlan(params.get("plan"));
+
+    // No custom eventa (scroll bez lapas pārlādes)
+    const handlePlanSelected = (e) => applyPlan(e.detail.plan);
+    window.addEventListener("planSelected", handlePlanSelected);
+    return () => window.removeEventListener("planSelected", handlePlanSelected);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
         handleBlur("subject");
+      }
+      if (planDropdownRef.current && !planDropdownRef.current.contains(event.target)) {
+        setIsPlanDropdownOpen(false);
+        handleBlur("plan");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -56,6 +81,12 @@ function Contact() {
     handleFocus("subject");
   };
 
+  const handleSelectPlan = (value) => {
+    setFormData((prev) => ({ ...prev, plan: value }));
+    setIsPlanDropdownOpen(false);
+    handleFocus("plan");
+  };
+
   const handleFocus = (name) =>
     setFocused((prev) => ({ ...prev, [name]: true }));
   const handleBlur = (name) =>
@@ -76,7 +107,7 @@ function Contact() {
 
   const handleReset = () => {
     setSubmitted(false);
-    setFormData({ name: "", email: "", company: "", subject: "", message: "" });
+    setFormData({ name: "", email: "", company: "", subject: "", plan: "", message: "" });
     setErrors({});
   };
 
@@ -106,8 +137,17 @@ function Contact() {
     { value: "other", label: t("contact_subj_other") },
   ];
 
+  const planOptions = [
+    { value: "1–10",   label: t("contact_plan_1_10") },
+    { value: "11–25",  label: t("contact_plan_11_25") },
+    { value: "26–50",  label: t("contact_plan_26_50") },
+    { value: "51–75",  label: t("contact_plan_51_75") },
+    { value: "76–100", label: t("contact_plan_76_100") },
+    { value: "100+",   label: t("contact_plan_100plus") },
+  ];
+
   return (
-    <section className="contact">
+    <section className="contact" id="contact">
       <div className="contact-blur-glow contact-blur-1"></div>
       <div className="contact-blur-glow contact-blur-2"></div>
 
@@ -255,18 +295,12 @@ function Contact() {
                           handleFocus("subject");
                         }}
                       >
-                        <span
-                          className={!formData.subject ? "placeholder" : ""}
-                        >
+                        <span className={!formData.subject ? "placeholder" : ""}>
                           {formData.subject
-                            ? subjectOptions.find(
-                                (opt) => opt.value === formData.subject,
-                              )?.label
+                            ? subjectOptions.find((opt) => opt.value === formData.subject)?.label
                             : t("contact_subj_placeholder")}
                         </span>
-                        <i
-                          className={`fa-solid fa-chevron-down select-arrow ${isDropdownOpen ? "rotated" : ""}`}
-                        ></i>
+                        <i className={`fa-solid fa-chevron-down select-arrow ${isDropdownOpen ? "rotated" : ""}`}></i>
                       </div>
 
                       {isDropdownOpen && (
@@ -283,6 +317,56 @@ function Contact() {
                         </div>
                       )}
                     </div>
+                  </div>
+                </div>
+
+                {/* Plāna izvēles lauks */}
+                <div
+                  className={`form-group plan-field ${focused.plan || isPlanDropdownOpen ? "focused" : ""} ${formData.plan ? "filled" : ""}`}
+                  ref={planDropdownRef}
+                >
+                  <label>
+                    <i className="fa-solid fa-users"></i>{" "}
+                    {t("contact_label_plan")}
+                    <span className="plan-label-badge">{t("contact_plan_auto")}</span>
+                  </label>
+                  <div className="custom-select-wrapper">
+                    <div
+                      className={`custom-select-trigger plan-trigger ${isPlanDropdownOpen ? "active" : ""} ${formData.plan ? "plan-selected" : ""}`}
+                      onClick={() => {
+                        setIsPlanDropdownOpen(!isPlanDropdownOpen);
+                        handleFocus("plan");
+                      }}
+                    >
+                      <div className="plan-trigger-left">
+                        {formData.plan ? (
+                          <>
+                            <span className="plan-trigger-range">{formData.plan}</span>
+                            <span className="plan-trigger-label">
+                              {planOptions.find((o) => o.value === formData.plan)?.label}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="placeholder">{t("contact_plan_placeholder")}</span>
+                        )}
+                      </div>
+                      <i className={`fa-solid fa-chevron-down select-arrow ${isPlanDropdownOpen ? "rotated" : ""}`}></i>
+                    </div>
+
+                    {isPlanDropdownOpen && (
+                      <div className="custom-options-menu animate-fade-in-fast">
+                        {planOptions.map((option) => (
+                          <div
+                            key={option.value}
+                            className={`custom-option plan-option ${formData.plan === option.value ? "selected" : ""}`}
+                            onClick={() => handleSelectPlan(option.value)}
+                          >
+                            <span className="plan-option-range">{option.value}</span>
+                            <span className="plan-option-label">{option.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 

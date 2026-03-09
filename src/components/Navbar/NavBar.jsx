@@ -14,9 +14,15 @@ function Navbar() {
   const [scrollDir, setScrollDir] = useState("up");
   const [lastScroll, setLastScroll] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setLoaded(true);
+
+    // Detect mobile
+    const checkMobile = () => setIsMobile(window.innerWidth <= 1100);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
 
     const handleScroll = () => {
       const currentScroll = window.scrollY;
@@ -59,8 +65,26 @@ function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", checkMobile);
+    };
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -103,15 +127,18 @@ function Navbar() {
     { code: "en", name: "English", flag: "🇬🇧" },
   ];
 
+  // On mobile — never hide navbar
+  const isHidden = !isMobile && scrollDir === "down" && scrolled;
+
   return (
     <>
       <div
         className="nav-progress-bar"
         style={{ width: `${scrollProgress}%` }}
-      ></div>
+      />
 
       <nav
-        className={`navbar ${loaded ? "nav-visible" : ""} ${scrollDir === "down" ? "navbar-hidden" : ""} ${scrolled ? "navbar-scrolled" : ""}`}
+        className={`navbar ${loaded ? "nav-visible" : ""} ${isHidden ? "navbar-hidden" : ""} ${scrolled ? "navbar-scrolled" : ""}`}
       >
         <div className="nav-container">
           <div
@@ -120,13 +147,10 @@ function Navbar() {
             title="Back to top"
           >
             <img src="/openoura_landing_page/openoura_logo_sm.png" alt="Logo" />
-            <div className="logo-glow"></div>
+            <div className="logo-glow" />
           </div>
 
-          <nav
-            className="nav-links animate-nav-item delay-2"
-            aria-label="Main navigation"
-          >
+          <nav className="nav-links animate-nav-item delay-2" aria-label="Main navigation">
             {menuItems.map((item) => (
               <a
                 key={item.section}
@@ -137,11 +161,8 @@ function Navbar() {
                   handleNavClick(item.section);
                 }}
               >
-                <i
-                  className={`fa-solid ${item.icon} ${item.comingSoon ? "ticking-clock" : ""}`}
-                ></i>
+                <i className={`fa-solid ${item.icon} ${item.comingSoon ? "ticking-clock" : ""}`} />
                 <span>{item.label}</span>
-
                 {activeSection === item.section && (
                   <span className="nav-link-indicator" />
                 )}
@@ -153,12 +174,12 @@ function Navbar() {
             <div className="nav-actions-buttons-wrapper">
               <SecondaryButton
                 btnText={t("login")}
-                icon={<i className="fa-solid fa-arrow-right-to-bracket"></i>}
+                icon={<i className="fa-solid fa-arrow-right-to-bracket" />}
                 onClick={() => {}}
               />
               <PrimaryButton
                 btnText={t("get_started")}
-                icon={<i className="fa-solid fa-rocket"></i>}
+                icon={<i className="fa-solid fa-rocket" />}
               />
             </div>
             <div className="lang-custom-dropdown">
@@ -167,11 +188,9 @@ function Navbar() {
                 onClick={() => setLangOpen(!langOpen)}
                 aria-label="Select language"
               >
-                <i className="fa-solid fa-globe globe-icon"></i>
-                <span className="lang-code-text">
-                  {i18n.language.toUpperCase()}
-                </span>
-                <i className="fa-solid fa-chevron-down lang-arrow"></i>
+                <i className="fa-solid fa-globe globe-icon" />
+                <span className="lang-code-text">{i18n.language.toUpperCase()}</span>
+                <i className="fa-solid fa-chevron-down lang-arrow" />
               </div>
 
               <div className={`lang-options-list ${langOpen ? "visible" : ""}`}>
@@ -184,7 +203,7 @@ function Navbar() {
                     <span className="lang-flag">{lang.flag}</span>
                     <span className="lang-name">{lang.name}</span>
                     {i18n.language === lang.code && (
-                      <i className="fa-solid fa-circle-check"></i>
+                      <i className="fa-solid fa-circle-check" />
                     )}
                   </div>
                 ))}
@@ -199,15 +218,9 @@ function Navbar() {
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
             >
-              <div
-                className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
-              ></div>
-              <div
-                className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
-              ></div>
-              <div
-                className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`}
-              ></div>
+              <div className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`} />
+              <div className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`} />
+              <div className={`hamburger-line ${mobileMenuOpen ? "open" : ""}`} />
             </button>
           </div>
         </div>
@@ -217,10 +230,7 @@ function Navbar() {
         className={`mobile-menu-overlay ${mobileMenuOpen ? "open" : ""}`}
         onClick={() => setMobileMenuOpen(false)}
       >
-        <div
-          className="mobile-menu-content"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="mobile-menu-content" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-menu-header">
             <img
               src="/openoura_landing_page/openoura_logo_sm.png"
@@ -241,13 +251,10 @@ function Navbar() {
                   handleNavClick(item.section);
                 }}
               >
-                <i
-                  className={`fa-solid ${item.icon} ${item.comingSoon ? "ticking-clock" : ""}`}
-                ></i>
+                <i className={`fa-solid ${item.icon} ${item.comingSoon ? "ticking-clock" : ""}`} />
                 <span>{item.label}</span>
-
                 {activeSection === item.section && (
-                  <i className="fa-solid fa-chevron-right"></i>
+                  <i className="fa-solid fa-chevron-right" />
                 )}
               </a>
             ))}
@@ -256,12 +263,12 @@ function Navbar() {
           <div className="mobile-menu-actions">
             <SecondaryButton
               btnText={t("login")}
-              icon={<i className="fa-solid fa-arrow-right-to-bracket"></i>}
+              icon={<i className="fa-solid fa-arrow-right-to-bracket" />}
               fullWidth={true}
             />
             <PrimaryButton
               btnText={t("get_started")}
-              icon={<i className="fa-solid fa-rocket"></i>}
+              icon={<i className="fa-solid fa-rocket" />}
               fullWidth={true}
             />
           </div>
@@ -280,7 +287,7 @@ function Navbar() {
                     <span className="mobile-lang-name">{lang.name}</span>
                   </div>
                   {i18n.language === lang.code && (
-                    <i className="fa-solid fa-circle-check"></i>
+                    <i className="fa-solid fa-circle-check" />
                   )}
                 </div>
               ))}

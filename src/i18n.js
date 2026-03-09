@@ -76,10 +76,39 @@ const resources = {
       downtime: "Dīkstāve",
       real_time_cost: "Peļņa 2025. gadā",
       how_it_works_subtitle: "no nulles",
-      pricing_title:
-        "Vienkārša un <span class='text-gradient'>caurspīdīga</span> cenu politika",
+
+      // ─── Pricing (jauns) ───
+      pricing_title: "Vienkārša, <span>caurspīdīga</span> cena",
       pricing_subtitle:
-        "Izvēlies savām vajadzībām piemērotāko plānu. Nekādu slēptu maksu.",
+        "Maksājiet tikai par lietotājiem, kas jums nepieciešami. Nav slēpto maksu.",
+      pricing_tier_label: "Izvēlieties lietotāju skaitu",
+      pricing_tier_users: "lietotāji",
+      pricing_per_month: "/ mēnesī",
+      pricing_per_user: "~ €{{price}} uz lietotāju",
+      pricing_custom_note: "Sazinieties par individuālu piedāvājumu",
+      pricing_btn_trial: "Sākt bezmaksas izmēģinājumu",
+      pricing_btn_sales: "Sazināties ar pārdošanu",
+      pricing_trial_note: "14 dienu bezmaksas izmēģinājums · Nav nepieciešama kredītkarte",
+      pricing_included_title: "Iekļauts visos plānos",
+
+      pricing_feature_projects_title: "Neierobežoti projekti",
+      pricing_feature_projects_desc: "Pārvaldiet visus ražošanas uzdevumus bez ierobežojumiem",
+      pricing_feature_time_title: "Laika uzskaite",
+      pricing_feature_time_desc: "Automātiska darbinieku nostrādāto stundu izsekošana",
+      pricing_feature_analytics_title: "Analītika & Atskaites",
+      pricing_feature_analytics_desc: "Reāllaika pārskats par ražošanas efektivitāti",
+      pricing_feature_export_title: "Datu eksports",
+      pricing_feature_export_desc: "Eksportējiet datus Excel, PDF vai CSV formātā",
+      pricing_feature_manager_title: "Projektu vadītāja funkcijas",
+      pricing_feature_manager_desc: "Uzdevumu piešķiršana, prioritātes un termiņi",
+      pricing_feature_support_title: "Prioritārs atbalsts",
+      pricing_feature_support_desc: "Tehniskā palīdzība darba dienās 9:00–18:00",
+      pricing_feature_onboarding_title: "Onboarding process",
+      pricing_feature_onboarding_desc: "Bezmaksas ievadapmācība jūsu komandai",
+      pricing_feature_security_title: "Datu drošība",
+      pricing_feature_security_desc: "Šifrēti savienojumi un regulāras rezerves kopijas",
+      // ──────────────────────
+
       monthly: "Mēneša",
       yearly: "Gada",
       save_20: "Ietaupi līdz 20%",
@@ -105,6 +134,16 @@ const resources = {
       support_phone: "24/7 Telefons",
       support_dedicated: "Personīgais vadītājs",
 
+
+      contact_label_plan: "Lietotāju skaits",
+      contact_plan_auto: "automātiski",
+      contact_plan_placeholder: "Izvēlies lietotāju skaitu...",
+      contact_plan_1_10: "1–10 lietotāji · €50/mēn",
+      contact_plan_11_25: "11–25 lietotāji · €125/mēn",
+      contact_plan_26_50: "26–50 lietotāji · €250/mēn",
+      contact_plan_51_75: "51–75 lietotāji · €350/mēn",
+      contact_plan_76_100: "76–100 lietotāji · €450/mēn",
+      contact_plan_100plus: "100+ lietotāji · €550/mēn",
       contact_badge: "Sazinies ar mums",
       contact_title_1: "Sazināsimies",
       contact_title_2: "tavu projektu",
@@ -156,6 +195,15 @@ const resources = {
       testimonial_1_metric: "30%",
       testimonial_1_metric_label: "Ātrāka ražošanas plūsma",
 
+
+      cs_badge_done: "Pieejams",
+      cs_badge_completed: "Pabeigts",
+      cs_status_live: "Live",
+      cs_status_completed: "Pabeigts",
+      cs_progress_done: "100% pabeigts",
+      feature_warehouse_tag: "Noliktavas sistēma",
+      feature_warehouse_tag_en: "Warehouse System",
+      feature_warehouse_desc: "Pilnīga materiālu un krājumu pārvaldība — izsekojiet katru pozīciju reāllaikā, saņemiet brīdinājumus par zemiem krājumiem un kontrolējiet noliktavas apgrozījumu.",
       cs_eyebrow: "Drīzumā pieejams",
       cs_title_1: "Nākamais solis",
       cs_title_2: "jau ceļā",
@@ -169,7 +217,7 @@ const resources = {
       feature_pdf_tag: "PDF Failu augšupielāde",
       feature_pdf_desc:
         "Ražošanas grāmatas, optimizācijas dokumenti un citi projekta faili tiek augšupielādēti tieši pie konkrētā projekta.",
-      feature_schedule_tag: "Ražotnes noslodzes grafiks",
+      feature_schedule_tag: "Ražošanas Plānotājs",
       feature_schedule_desc:
         "Vizuāla ražošanas plānošana – optimizē procesus, prognozē nepieciešamo darbinieku skaitu un resursus nākotnē.",
       feature_mobile_tag: "Mobilā aplikācija",
@@ -184,7 +232,6 @@ const resources = {
       mockup_greeting: "Labdien, Jāni",
       mockup_tasks: "Uzdevumi",
       file_management: "Failu pārvalde",
-      feature_schedule_tag: "Ražošanas Plānotājs",
 
       footer_newsletter_title: "Esi pirmais, kas uzzina jaunumus",
       footer_newsletter_desc:
@@ -303,10 +350,39 @@ const resources = {
       low_level: "Low level",
       downtime: "Downtime",
       real_time_cost: "Profit in 2025",
-      pricing_title:
-        "Simple & <span class='text-gradient'>Transparent</span> Pricing",
+
+      // ─── Pricing (new) ───
+      pricing_title: "Simple, <span>transparent</span> pricing",
       pricing_subtitle:
-        "Choose the perfect plan for your needs. No hidden fees, no surprises.",
+        "Pay only for the users you need. No hidden fees.",
+      pricing_tier_label: "Select number of users",
+      pricing_tier_users: "users",
+      pricing_per_month: "/ month",
+      pricing_per_user: "~ €{{price}} per user",
+      pricing_custom_note: "Contact us for a custom quote",
+      pricing_btn_trial: "Start free trial",
+      pricing_btn_sales: "Contact sales",
+      pricing_trial_note: "14-day free trial · No credit card required",
+      pricing_included_title: "Included in all plans",
+
+      pricing_feature_projects_title: "Unlimited projects",
+      pricing_feature_projects_desc: "Manage all production tasks without limitations",
+      pricing_feature_time_title: "Time tracking",
+      pricing_feature_time_desc: "Automatic tracking of employee working hours",
+      pricing_feature_analytics_title: "Analytics & Reports",
+      pricing_feature_analytics_desc: "Real-time overview of production efficiency",
+      pricing_feature_export_title: "Data export",
+      pricing_feature_export_desc: "Export data in Excel, PDF or CSV format",
+      pricing_feature_manager_title: "Project manager features",
+      pricing_feature_manager_desc: "Task assignment, priorities and deadlines",
+      pricing_feature_support_title: "Priority support",
+      pricing_feature_support_desc: "Technical assistance on weekdays 9:00–18:00",
+      pricing_feature_onboarding_title: "Onboarding process",
+      pricing_feature_onboarding_desc: "Free onboarding training for your team",
+      pricing_feature_security_title: "Data security",
+      pricing_feature_security_desc: "Encrypted connections and regular backups",
+      // ────────────────────
+
       monthly: "Monthly",
       yearly: "Yearly",
       save_20: "Save up to 20%",
@@ -332,6 +408,16 @@ const resources = {
       support_phone: "24/7 Phone",
       support_dedicated: "Dedicated",
 
+
+      contact_label_plan: "Number of users",
+      contact_plan_auto: "auto-filled",
+      contact_plan_placeholder: "Select number of users...",
+      contact_plan_1_10: "1–10 users · €50/mo",
+      contact_plan_11_25: "11–25 users · €125/mo",
+      contact_plan_26_50: "26–50 users · €250/mo",
+      contact_plan_51_75: "51–75 users · €350/mo",
+      contact_plan_76_100: "76–100 users · €450/mo",
+      contact_plan_100plus: "100+ users · €550/mo",
       contact_badge: "Contact us",
       contact_title_1: "Let's talk about",
       contact_title_2: "your project",
@@ -383,6 +469,15 @@ const resources = {
       testimonial_1_metric: "30%",
       testimonial_1_metric_label: "Faster Production Flow",
 
+
+      cs_badge_done: "Live",
+      cs_badge_completed: "Completed",
+      cs_status_live: "Live",
+      cs_status_completed: "Completed",
+      cs_progress_done: "100% complete",
+      feature_warehouse_tag: "Warehouse System",
+      feature_warehouse_tag_en: "Warehouse System",
+      feature_warehouse_desc: "Complete material and inventory management — track every item in real time, receive low stock alerts, and monitor warehouse turnover.",
       cs_eyebrow: "Coming Soon",
       cs_title_1: "The next step",
       cs_title_2: "is on its way",

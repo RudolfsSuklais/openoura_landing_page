@@ -654,3 +654,76 @@
     font-size: 14px;
   }
 }
+
+/* ─── Plan field ─── */
+.plan-field {
+  grid-column: 1 / -1;
+}
+
+.plan-label-badge {
+  margin-left: 8px;
+  background: linear-gradient(135deg, rgba(123, 63, 242, 0.25), rgba(225, 29, 255, 0.15));
+  border: 1px solid rgba(123, 63, 242, 0.3);
+  color: #a855f7;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  vertical-align: middle;
+}
+
+.plan-trigger {
+  min-height: 50px;
+}
+
+.plan-trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plan-trigger-range {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(123, 63, 242, 0.2), rgba(225, 29, 255, 0.1));
+  border: 1px solid rgba(123, 63, 242, 0.3);
+  padding: 3px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.plan-trigger-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.plan-trigger.plan-selected {
+  border-color: rgba(123, 63, 242, 0.5);
+  background: rgba(123, 63, 242, 0.06);
+  box-shadow: 0 0 0 3px rgba(123, 63, 242, 0.08), 0 0 20px rgba(123, 63, 242, 0.06);
+}
+
+.plan-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.plan-option-range {
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  min-width: 48px;
+}
+
+.plan-option-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.plan-option.selected .plan-option-label {
+  color: rgba(255, 255, 255, 0.8);
+}

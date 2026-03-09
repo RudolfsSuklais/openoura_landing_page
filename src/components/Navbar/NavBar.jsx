@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Navbar.css";
+import "./NavBar.css";
 import { useTranslation } from "react-i18next";
 import PrimaryButton from "../Buttons/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../Buttons/SecondaryButton/SecondaryButton";

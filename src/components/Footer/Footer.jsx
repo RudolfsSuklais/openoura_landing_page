@@ -14,7 +14,7 @@ export default function Footer() {
         { icon: "fa-brands fa-linkedin-in", href: "#", label: "LinkedIn" },
         { icon: "fa-brands fa-x-twitter", href: "#", label: "X / Twitter" },
         { icon: "fa-brands fa-github", href: "#", label: "GitHub" },
-        { icon: "fa-brands fa-instagram", href: "#", label: "Instagram" },
+        { icon: "fa-brands fa-instagram", href: "https://www.instagram.com/openoura/", label: "Instagram" },
     ];
 
     useEffect(() => {

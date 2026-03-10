@@ -119,14 +119,12 @@ export default function Navbar() {
 
     return (
         <>
-            {/* Progress bar */}
             <div
                 className="nb-progress"
                 style={{ width: `${progress}%` }}
                 aria-hidden="true"
             />
 
-            {/* Navbar */}
             <header
                 className={[
                     "nb",
@@ -244,7 +242,6 @@ export default function Navbar() {
                 </div>
             </header>
 
-            {/* Mobile drawer */}
             <div
                 id="nb-drawer"
                 className={`nb-drawer${drawerOpen ? " nb-drawer--open" : ""}`}

@@ -6,8 +6,9 @@ function SecondaryButton({ btnText, icon, fullWidth = false, onClick }) {
       className={`btn-secondary ${fullWidth ? "full-width" : ""}`}
       onClick={onClick}
     >
-      {btnText}
       {icon && <span className="btn-icon">{icon}</span>}
+      {btnText}
+
     </button>
   );
 }

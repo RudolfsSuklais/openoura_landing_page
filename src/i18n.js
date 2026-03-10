@@ -292,6 +292,32 @@ const resources = {
             footer_contact_label: "Kontakti",
             footer_socials_label: "Seko mums",
 
+            faq_eyebrow: "Biežāk uzdotie jautājumi",
+faq_title_1: "Tev ir jautājumi?",
+faq_title_2: "Mums ir atbildes.",
+faq_subtitle: "Ja neatrodi atbildi, sazinies ar mums — atbildēsim 24 stundu laikā.",
+
+faq_q1: "Vai ir bezmaksas izmēģinājums?",
+faq_a1: "Jā! Visi plāni ietver 14 dienu bezmaksas izmēģinājumu. Nav nepieciešama kredītkarte — vienkārši reģistrējies un sāc lietot.",
+
+faq_q2: "Kā tiek aprēķināta cena?",
+faq_a2: "Cena ir atkarīga no lietotāju skaita. Jo vairāk lietotāju, jo zemāka cena uz vienu lietotāju. Visi plāni ietver pilnu funkcionalitāti bez slēptām maksām.",
+
+faq_q3: "Vai varu mainīt lietotāju skaitu vēlāk?",
+faq_a3: "Jā, jebkurā laikā vari palielināt vai samazināt lietotāju skaitu. Izmaiņas stājas spēkā nākamajā norēķinu periodā.",
+
+faq_q4: "Kā notiek onboarding process?",
+faq_a4: "Pēc reģistrācijas mūsu komanda sazinās ar tevi un palīdz iestatīt sistēmu. Onboarding ir bezmaksas un iekļauts visos plānos.",
+
+faq_q5: "Vai mani dati ir droši?",
+faq_a5: "Jā. Visi savienojumi ir SSL šifrēti, dati tiek regulāri dublēti un platforma atbilst GDPR prasībām. Tavi dati pieder tev.",
+
+faq_q6: "Vai varu eksportēt datus?",
+faq_a6: "Jā, datus var eksportēt Excel, PDF vai CSV formātā jebkurā laikā. Nav nekādu ierobežojumu eksporta apjomam.",
+
+faq_still_questions: "Vēl joprojām ir jautājumi?",
+faq_contact_us: "Sazinies ar mums",
+
             cookie_settings_title: "Sīkdatņu iestatījumi",
 cookie_necessary_desc: "Nepieciešamas lapas darbībai. Nevar atslēgt.",
 cookie_analytics_desc: "Palīdz mums saprast, kā apmeklētāji mijiedarbojas ar mājaslapu.",
@@ -386,7 +412,32 @@ back: "Atpakaļ",
             downtime: "Downtime",
             real_time_cost: "Profit in 2025",
 
-            // ─── Pricing (new) ───
+            faq_eyebrow: "Frequently Asked Questions",
+faq_title_1: "Got questions?",
+faq_title_2: "We've got answers.",
+faq_subtitle: "If you can't find what you're looking for, contact us — we'll reply within 24 hours.",
+
+faq_q1: "Is there a free trial?",
+faq_a1: "Yes! All plans include a 14-day free trial. No credit card required — just sign up and start using it.",
+
+faq_q2: "How is pricing calculated?",
+faq_a2: "Pricing is based on the number of users. The more users, the lower the cost per user. All plans include full functionality with no hidden fees.",
+
+faq_q3: "Can I change the number of users later?",
+faq_a3: "Yes, you can increase or decrease the number of users at any time. Changes take effect in the next billing period.",
+
+faq_q4: "How does the onboarding process work?",
+faq_a4: "After signing up, our team will reach out to help you set everything up. Onboarding is free and included in all plans.",
+
+faq_q5: "Is my data secure?",
+faq_a5: "Yes. All connections are SSL encrypted, data is regularly backed up, and the platform is GDPR compliant. Your data belongs to you.",
+
+faq_q6: "Can I export my data?",
+faq_a6: "Yes, data can be exported in Excel, PDF or CSV format at any time. There are no limits on export volume.",
+
+faq_still_questions: "Still have questions?",
+faq_contact_us: "Contact us",
+
             pricing_title: "Simple, <span>transparent</span> pricing",
             pricing_subtitle:
                 "Pay only for the users you need. No hidden fees.",

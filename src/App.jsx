@@ -12,6 +12,7 @@ import Pricing from "./sections/Pricing/Pricing.jsx";
 import Contact from "./sections/Contact/Contact.jsx";
 import Testimonials from "./sections/Contact/Testimonials/Testimonials.jsx";
 import ComingSoon from "./sections/ComingSoon/ComingSoon.jsx";
+import FAQ from "./sections/FAQ/FAQ.jsx";
 
 import { useTranslation } from "react-i18next";
 
@@ -41,6 +42,9 @@ function App() {
       </section>
       <section id="coming-soon">
         <ComingSoon />
+      </section>
+      <section>
+        <FAQ />
       </section>
       <Footer />
       <ScrollToTop />

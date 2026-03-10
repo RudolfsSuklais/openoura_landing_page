@@ -38,14 +38,16 @@ function Hero() {
           </p>
 
         <div className="hero-actions animate-slide-up-button">
-  <a href="#contact">
+  <a href="#pricing">
     <PrimaryButton
       icon={<i className="fa-solid fa-rocket"></i>}
       btnText={t("get_started", "Sākt bez maksas")}
     />
   </a>
   <a href="#contact">
-    <SecondaryButton btnText={t("book_demo", "Pieteikt demo")} />
+    <SecondaryButton 
+    btnText={t("book_demo", "Pieteikt demo")} 
+    />
   </a>
 </div>
           <div className="hero-stats animate-fade-in-delayed">

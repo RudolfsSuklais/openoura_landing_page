@@ -578,3 +578,7 @@
         display: none;
     }
 }
+
+.hero-actions .btn-secondary {
+    display: none;
+}

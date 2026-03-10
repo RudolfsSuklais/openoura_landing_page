@@ -5,7 +5,6 @@
     overflow: hidden;
 }
 
-/* Glow — tāds pats kā hero-blur-glow */
 .faq::before {
     content: "";
     position: absolute;
@@ -30,7 +29,6 @@
     margin: 0 auto;
 }
 
-/* ── Header ── */
 .faq-header {
     text-align: center;
     margin-bottom: 56px;
@@ -67,7 +65,6 @@
     margin: 0;
 }
 
-/* ── Accordion list ── */
 .faq-list {
     display: flex;
     flex-direction: column;
@@ -94,7 +91,6 @@
     box-shadow: 0 8px 40px rgba(123, 63, 242, 0.12);
 }
 
-/* Question row */
 .faq-question {
     display: flex;
     align-items: center;
@@ -117,7 +113,6 @@
     color: #fff;
 }
 
-/* Icon */
 .faq-icon {
     flex-shrink: 0;
     width: 32px;
@@ -142,7 +137,6 @@
     color: #e11dff;
 }
 
-/* Answer */
 .faq-answer {
     max-height: 0;
     overflow: hidden;
@@ -163,7 +157,6 @@
     padding-top: 18px;
 }
 
-/* ── Bottom CTA ── */
 .faq-cta {
     display: flex;
     align-items: center;
@@ -192,7 +185,6 @@
     opacity: 0.9;
 }
 
-/* ── Mobile ── */
 @media (max-width: 1024px) {
     .faq {
         padding: 80px 5%;

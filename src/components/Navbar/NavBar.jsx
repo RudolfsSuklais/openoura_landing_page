@@ -177,7 +177,7 @@ export default function Navbar() {
                             icon={
                                 <i className="fa-solid fa-arrow-right-to-bracket" />
                             }
-                            onClick={() => {}}
+                            onClick={() => window.open("https://openoura.com", "_blank")}
                         />
                         <PrimaryButton
                             btnText={t("get_started")}
@@ -305,12 +305,18 @@ export default function Navbar() {
                                     <i className="fa-solid fa-arrow-right-to-bracket" />
                                 }
                                 fullWidth
-                                onClick={() => {}}
+                                onClick={() => window.open("https://openoura.com", "_blank")}
                             />
                             <PrimaryButton
                                 btnText={t("get_started")}
                                 icon={<i className="fa-solid fa-rocket" />}
                                 fullWidth
+                                onClick={() => {
+                                    setDrawerOpen(false);
+                                    setTimeout(() => {
+                                        document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
+                                    }, 300);
+                                }}
                             />
                         </div>
                         <div className="nb-drawer__lang">

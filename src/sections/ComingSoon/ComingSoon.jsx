@@ -437,12 +437,10 @@ function FeatureCard({ feature, index, position, onClick, isVisible }) {
                 filter: isCenter ? "none" : `brightness(0.65)`,
             }}
             onClick={() => !isCenter && onClick(index)}>
-            {/* Released overlay shimmer */}
             {isReleased && <div className="released-shimmer" />}
 
             <div className="card-glow" />
 
-            {/* Done / Completed badge */}
             {isReleased && (
                 <div
                     className={`released-badge ${isDone ? "badge-done" : "badge-completed"}`}>
@@ -450,7 +448,7 @@ function FeatureCard({ feature, index, position, onClick, isVisible }) {
                         className={
                             isDone
                                 ? "fa-solid fa-circle-check"
-                                : "fa-solid fa-box-check"
+                                : "fa-solid fa-circle-check"
                         }
                     />
                     <span>

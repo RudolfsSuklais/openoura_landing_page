@@ -32,10 +32,10 @@
 
 .cookie-overlay {
   position: fixed;
-  inset: 0; /* Pārklāj visu ekrānu, bet padara caurspīdīgu */
+  inset: 0; 
   background: rgba(0, 0, 0, 0.4);
   display: flex;
-  align-items: flex-end; /* Novieto apakšā */
+  align-items: flex-end; 
   justify-content: center;
   padding: 20px;
   z-index: 10000;
@@ -78,7 +78,6 @@
   justify-content: flex-end;
 }
 
-/* Iestatījumu rindas */
 .option-item {
   display: flex;
   justify-content: space-between;
@@ -98,7 +97,6 @@
   font-size: 12px;
 }
 
-/* Stilīgs checkbox (var izmantot arī switch) */
 .option-item input[type="checkbox"] {
   width: 20px;
   height: 20px;

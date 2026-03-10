@@ -9,9 +9,8 @@ function CookieConsent() {
   const [showSettings, setShowSettings] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   
-  // Sīkdatņu kategoriju stāvoklis
   const [options, setOptions] = useState({
-    necessary: true, // Šo parasti nevar atslēgt
+    necessary: true,
     analytics: true,
     marketing: false,
   });
@@ -43,7 +42,6 @@ function CookieConsent() {
     <div className="cookie-overlay">
       <div className={`cookie-modal ${showSettings ? 'expanded' : ''}`}>
         {!showSettings ? (
-          /* PAMATA SKATS */
           <div className="cookie-main">
             <h3>{t('cookie_title', 'Mēs cienām jūsu privātumu')}</h3>
             <p>{t('cookie_description', 'Mēs izmantojam sīkfailus, lai uzlabotu jūsu pārlūkošanas pieredzi un analizētu mūsu trafiku.')}</p>
@@ -57,7 +55,6 @@ function CookieConsent() {
             </div>
           </div>
         ) : (
-          /* IESTATĪJUMU SKATS */
           <div className="cookie-settings">
             <h3>{t('cookie_settings_title', 'Sīkdatņu iestatījumi')}</h3>
             

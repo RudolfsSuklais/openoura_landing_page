@@ -292,6 +292,12 @@ const resources = {
             footer_contact_label: "Kontakti",
             footer_socials_label: "Seko mums",
 
+            cookie_settings_title: "Sīkdatņu iestatījumi",
+cookie_necessary_desc: "Nepieciešamas lapas darbībai. Nevar atslēgt.",
+cookie_analytics_desc: "Palīdz mums saprast, kā apmeklētāji mijiedarbojas ar mājaslapu.",
+cookie_marketing_desc: "Tiek izmantotas, lai rādītu personalizētas reklāmas.",
+back: "Atpakaļ",
+
             step_1_desc:
                 "Openoura ļauj ātri sastādīt detalizētas tāmes, pievienot gatavas vai pielāgotas izmaksu pozīcijas un uzreiz redzēt projekta finansiālo rezultātu.",
             step_1_title: "Tāmēšana",
@@ -418,6 +424,11 @@ const resources = {
             pricing_feature_security_desc:
                 "Encrypted connections and regular backups",
             // ────────────────────
+            cookie_settings_title: "Cookie Settings",
+cookie_necessary_desc: "Required for the site to function. Cannot be disabled.",
+cookie_analytics_desc: "Helps us understand how visitors interact with the website.",
+cookie_marketing_desc: "Used to display personalised advertisements.",
+back: "Back",
 
             monthly: "Monthly",
             yearly: "Yearly",
@@ -517,6 +528,7 @@ const resources = {
             testimonial_1_role: "Board Member",
             testimonial_1_metric: "30%",
             testimonial_1_metric_label: "Faster Production Flow",
+            
 
             cs_badge_done: "Live",
             cs_badge_completed: "Completed",

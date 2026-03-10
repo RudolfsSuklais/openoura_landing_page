@@ -83,7 +83,6 @@ export default function Footer() {
                 <div className="footer-divider" />
 
                 <div className="footer-main">
-                    {/* Left — logo + tagline */}
                     <div className="footer-brand-identity">
                         <div className="footer-logo">
                             <img src={OpenOuraLogo} alt="Logo" />
@@ -91,7 +90,6 @@ export default function Footer() {
                         <p className="footer-tagline">{t("footer_tagline")}</p>
                     </div>
 
-                    {/* Centre — contact details */}
                     <div className="footer-contact-block">
                         <p className="footer-block-label">
                             {t("footer_contact_label")}
@@ -116,7 +114,6 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Right — socials */}
                     <div className="footer-socials-block">
                         <p className="footer-block-label">
                             {t("footer_socials_label")}

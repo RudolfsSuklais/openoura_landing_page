@@ -73,7 +73,6 @@ const Pricing = () => {
     const tier = pricingTiers[selectedTier];
 
     const handleStartTrial = () => {
-        // Ieraksta izvēlēto plānu URL un scroll uz contact
         const params = new URLSearchParams(window.location.search);
         params.set("plan", tier.range);
         const newUrl = `${window.location.pathname}?${params.toString()}#contact`;
@@ -85,7 +84,6 @@ const Pricing = () => {
                 behavior: "smooth",
                 block: "start",
             });
-            // Dispatch custom event lai Contact.jsx var nolasīt jauno vērtību
             window.dispatchEvent(
                 new CustomEvent("planSelected", {
                     detail: { plan: tier.range },

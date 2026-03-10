@@ -29,7 +29,6 @@ function Contact() {
     const dropdownRef = useRef(null);
     const planDropdownRef = useRef(null);
 
-    // Nolasa plānu no URL vai planSelected eventa
     useEffect(() => {
         const applyPlan = (planValue) => {
             if (planValue) {
@@ -108,7 +107,6 @@ function Contact() {
         e?.preventDefault();
         setSubmitError("");
 
-        // Client-side cooldown — prevents double-submits and casual abuse
         const lastSubmit = sessionStorage.getItem("lastSubmit");
         if (lastSubmit && Date.now() - Number(lastSubmit) < 30_000) {
             setSubmitError(t("contact_err_too_fast"));
@@ -126,16 +124,13 @@ function Contact() {
         try {
             const payload = {
                 access_key: WEB3FORMS_KEY,
-                // This subject line appears in your inbox
                 subject: `New contact from ${formData.name}${formData.subject ? ` — ${formData.subject}` : ""}`,
-                // All your form fields
                 name: formData.name,
                 email: formData.email,
                 company: formData.company || "—",
                 topic: formData.subject || "—",
                 plan: formData.plan || "—",
                 message: formData.message,
-                // Stops spam bots (honeypot) — Web3Forms ignores submissions that fill this
                 botcheck: "",
             };
 
@@ -154,7 +149,6 @@ function Contact() {
                 sessionStorage.setItem("lastSubmit", String(Date.now()));
                 setSubmitted(true);
             } else {
-                // Web3Forms returns a message field on failure
                 setSubmitError(data.message || t("contact_err_generic"));
             }
         } catch {
@@ -282,7 +276,6 @@ function Contact() {
                                 className="contact-form"
                                 onSubmit={handleSubmit}
                                 noValidate>
-                                {/* Honeypot — hidden from real users, traps bots */}
                                 <input
                                     type="checkbox"
                                     name="botcheck"
@@ -425,7 +418,6 @@ function Contact() {
                                     </div>
                                 </div>
 
-                                {/* Plāna izvēles lauks */}
                                 <div
                                     className={`form-group plan-field ${focused.plan || isPlanDropdownOpen ? "focused" : ""} ${formData.plan ? "filled" : ""}`}
                                     ref={planDropdownRef}>
@@ -524,7 +516,6 @@ function Contact() {
                                     )}
                                 </div>
 
-                                {/* Network / API error */}
                                 {submitError && (
                                     <div className="submit-error">
                                         <i className="fa-solid fa-circle-exclamation"></i>{" "}

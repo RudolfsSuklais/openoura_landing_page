@@ -380,7 +380,6 @@
     }
 }
 
-/* Kopsavilkums apakšā */
 .timeline-summary {
     display: flex;
     gap: 20px;
@@ -486,7 +485,6 @@
     padding-top: 8px;
 }
 
-/* Krāsu akcenti tooltipā */
 .text-green {
     color: #27c93f;
 }
@@ -494,7 +492,6 @@
     color: #e11dff;
 }
 
-/* Progress bar apakšā */
 .timeline-footer {
     margin-top: 20px;
 }

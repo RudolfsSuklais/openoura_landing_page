@@ -124,11 +124,6 @@ function Contact() {
             const payload = {
                 access_key: WEB3FORMS_KEY,
                 from_name: "OpenOura",
-                replyto: formData.email,
-                autoresponse: true,
-                autoresponse_to: formData.email,
-                autoresponse_subject: `Hi ${formData.name}, we received your message!`,
-                autoresponse_message: `Hi ${formData.name},\n\nThank you for contacting OpenOura...`,
                 subject: `New contact from ${formData.name}${formData.subject ? ` — ${formData.subject}` : ""}`,
                 name: formData.name,
                 email: formData.email,

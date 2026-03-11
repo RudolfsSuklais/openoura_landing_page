@@ -3,8 +3,7 @@ import { useTranslation } from "react-i18next";
 import "./Contact.css";
 import PrimaryButton from "../../components/Buttons/PrimaryButton/PrimaryButton";
 
-// ← Paste your Web3Forms access key here (free at web3forms.com)
-const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE";
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY;
 
 function Contact() {
     const { t } = useTranslation();
@@ -124,6 +123,12 @@ function Contact() {
         try {
             const payload = {
                 access_key: WEB3FORMS_KEY,
+                from_name: "OpenOura",
+                replyto: formData.email,
+                autoresponse: true,
+                autoresponse_to: formData.email,
+                autoresponse_subject: `Hi ${formData.name}, we received your message!`,
+                autoresponse_message: `Hi ${formData.name},\n\nThank you for contacting OpenOura...`,
                 subject: `New contact from ${formData.name}${formData.subject ? ` — ${formData.subject}` : ""}`,
                 name: formData.name,
                 email: formData.email,

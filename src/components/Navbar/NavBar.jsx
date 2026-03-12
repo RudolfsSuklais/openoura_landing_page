@@ -179,10 +179,12 @@ export default function Navbar() {
                             }
                             onClick={() => window.open("https://openoura.com", "_blank")}
                         />
+                        <a href="#contact">
                         <PrimaryButton
                             btnText={t("get_started")}
                             icon={<i className="fa-solid fa-rocket" />}
                         />
+                        </a>
 
                         <div className="nb__lang" ref={langRef}>
                             <button

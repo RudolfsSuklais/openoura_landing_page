@@ -222,9 +222,9 @@ const resources = {
                 "Iegūstiet pilnu pārskatu par komandas darbību jebkurā laika posmā — redziet ko katrs darbinieks ir darījis, cik ilgi un ar kādu efektivitāti strādājis procentos.",
 
             cs_badge_done: "Pieejams",
-            cs_badge_completed: "Pabeigts",
+            cs_badge_completed: "Pieejams",
             cs_status_live: "Live",
-            cs_status_completed: "Pabeigts",
+            cs_status_completed: "Live",
             cs_progress_done: "100% pabeigts",
             feature_warehouse_tag: "Noliktavas sistēma",
             feature_warehouse_tag_en: "Warehouse System",

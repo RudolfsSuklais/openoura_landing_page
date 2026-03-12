@@ -11,10 +11,11 @@ export default function Footer() {
     const footerRef = useRef(null);
 
     const SOCIALS = [
-        { icon: "fa-brands fa-linkedin-in", href: "#", label: "LinkedIn" },
-        { icon: "fa-brands fa-x-twitter", href: "#", label: "X / Twitter" },
-        { icon: "fa-brands fa-github", href: "#", label: "GitHub" },
+        // { icon: "fa-brands fa-linkedin-in", href: "#", label: "LinkedIn" },
+        // { icon: "fa-brands fa-x-twitter", href: "#", label: "X / Twitter" },
+        // { icon: "fa-brands fa-github", href: "#", label: "GitHub" },
         { icon: "fa-brands fa-instagram", href: "https://www.instagram.com/openoura/", label: "Instagram" },
+        { icon: "fa-brands fa-facebook", href: "https://www.facebook.com/profile.php?id=61585488167703", label: "Instagram" },
     ];
 
     useEffect(() => {
@@ -123,6 +124,7 @@ export default function Footer() {
                                 <a
                                     key={s.label}
                                     href={s.href}
+                                    target="_blank"
                                     className="social-btn"
                                     aria-label={s.label}>
                                     <i className={s.icon} />

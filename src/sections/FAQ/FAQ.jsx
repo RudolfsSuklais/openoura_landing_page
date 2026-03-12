@@ -54,7 +54,9 @@ function FAQ() {
                 </div>
               </div>
               <div className="faq-answer">
-                <p>{item.a}</p>
+                <div className="faq-answer-inner">
+                  <p>{item.a}</p>
+                </div>
               </div>
             </div>
           ))}

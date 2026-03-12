@@ -76,7 +76,6 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
     cursor: pointer;
-    overflow: hidden;
     transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -138,13 +137,17 @@
 }
 
 .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .faq-item.open .faq-answer {
-    max-height: 300px;
+    grid-template-rows: 1fr;
+}
+
+.faq-answer-inner {
+    overflow: hidden;
 }
 
 .faq-answer p {

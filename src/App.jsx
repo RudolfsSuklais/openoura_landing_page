@@ -10,7 +10,7 @@ import Shift from "./sections/Shift/Shift.jsx";
 import HowItWorks from "./sections/HowItWorks/HowItWorks.jsx";
 import Pricing from "./sections/Pricing/Pricing.jsx";
 import Contact from "./sections/Contact/Contact.jsx";
-import Testimonials from "./sections/Contact/Testimonials/Testimonials.jsx";
+import Testimonials from "./sections/Testimonials/Testimonials.jsx";
 import ComingSoon from "./sections/ComingSoon/ComingSoon.jsx";
 import FAQ from "./sections/FAQ/FAQ.jsx";
 

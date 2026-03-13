@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import "./Testimonials.css";
 
-import FINESTRA_LOGO from "../../../assets/finestra_solution_logo.png";
+import FINESTRA_LOGO from "../../assets/finestra_solution_logo.png";
 
 function StarRating({ count }) {
     return (
@@ -131,6 +131,7 @@ function Testimonials() {
             <div className="testimonials-container">
                 <div className="testimonials-header">
                     <span className="section-eyebrow">
+                        <span className="eyebrow-pulse" />
                         <i className="fa-solid fa-stars"></i>{" "}
                         {t("testimonials_eyebrow")}
                     </span>

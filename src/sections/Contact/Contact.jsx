@@ -29,12 +29,13 @@ function Contact() {
     const planDropdownRef = useRef(null);
 
     useEffect(() => {
+        const VALID_PLANS = ["1–10", "11–25", "26–50", "51–75", "76–100", "100+"];
+
         const applyPlan = (planValue) => {
-            if (planValue) {
+            if (planValue && VALID_PLANS.includes(planValue)) {
                 setFormData((prev) => ({ ...prev, plan: planValue }));
             }
         };
-
         const params = new URLSearchParams(window.location.search);
         applyPlan(params.get("plan"));
 

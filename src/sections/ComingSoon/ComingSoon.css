@@ -1146,3 +1146,248 @@
   font-size: 9px;
   color: #f59e0b;
 }
+.mockup-crm {
+  padding: 12px 14px;
+  gap: 0;
+  justify-content: space-between;
+}
+
+.crm-pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.crm-stage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(-6px);
+}
+.card-visible .crm-stage {
+  animation: slideRowIn 0.35s ease forwards;
+}
+
+.crm-stage-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.crm-stage-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  flex: 1;
+}
+
+.crm-sms-icon {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.crm-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin: 2px 0 10px;
+}
+
+.crm-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.crm-msg-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.card-visible .crm-msg-row {
+  animation: slideRowIn 0.4s ease forwards;
+}
+
+.crm-msg-bubble {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px 10px 10px 2px;
+  padding: 7px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.crm-msg-to {
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.crm-msg-text {
+  font-size: 10px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.4;
+}
+
+.crm-msg-sent {
+  font-size: 11px;
+  flex-shrink: 0;
+  padding-bottom: 2px;
+}
+
+.mockup-tracking {
+  padding: 12px 14px;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.tr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.tr-order-id {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tr-id-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.4px;
+}
+
+.tr-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.tr-status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+.tr-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tr-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  opacity: 0;
+  transform: translateX(-6px);
+}
+.card-visible .tr-step {
+  animation: slideRowIn 0.35s ease forwards;
+}
+
+.tr-step-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 14px;
+}
+
+.tr-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.tr-dot-done {
+  border: none;
+}
+
+.tr-dot-active {
+  background: transparent;
+  border: 2px solid;
+  position: relative;
+}
+
+.tr-dot-pending {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.tr-connector {
+  width: 1.5px;
+  height: 22px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 99px;
+  margin: 2px 0;
+}
+
+.tr-step-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.tr-label-done {
+  color: rgba(255,255,255,0.55);
+}
+
+.tr-label-active {
+  font-weight: 700;
+}
+
+.tr-label-pending {
+  color: rgba(255,255,255,0.25);
+}
+
+.tr-active-ping {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+.tr-link-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+}
+
+.tr-link-text {
+  font-size: 9.5px;
+  color: rgba(255,255,255,0.3);
+  font-weight: 500;
+  font-family: monospace;
+  letter-spacing: 0.2px;
+}

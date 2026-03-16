@@ -400,6 +400,93 @@ function Mockup({ type, color, colorSecondary }) {
         );
     }
 
+    if (type === "crm") {
+    const statuses = [
+        { label: t("crm_status_new"), color: "#3b82f6", sms: false },
+        { label: t("crm_status_production"), color: "#f59e0b", sms: true },
+        { label: t("crm_status_ready"), color: "#10b981", sms: true },
+        { label: t("crm_status_delivered"), color: "#a855f7", sms: true },
+    ];
+    const messages = [
+        { to: "+371 2X XXX XXX", text: t("crm_sms_1"), delay: 0 },
+        { to: "+371 2X XXX XXX", text: t("crm_sms_2"), delay: 0.18 },
+    ];
+    return (
+        <div className="mockup mockup-crm">
+            <div className="crm-pipeline">
+                {statuses.map((s, i) => (
+                    <div className="crm-stage" key={i} style={{ animationDelay: `${i * 0.1}s` }}>
+                        <div className="crm-stage-dot" style={{ background: s.color, boxShadow: `0 0 6px ${s.color}88` }} />
+                        <span className="crm-stage-label">{s.label}</span>
+                        {s.sms && <i className="fa-solid fa-comment-sms crm-sms-icon" style={{ color }} />}
+                    </div>
+                ))}
+            </div>
+            <div className="crm-divider" />
+            <div className="crm-messages">
+                {messages.map((m, i) => (
+                    <div className="crm-msg-row" key={i} style={{ animationDelay: `${m.delay}s` }}>
+                        <div className="crm-msg-bubble">
+                            <div className="crm-msg-to">{m.to}</div>
+                            <div className="crm-msg-text">{m.text}</div>
+                        </div>
+                        <div className="crm-msg-sent">
+                            <i className="fa-solid fa-check-double" style={{ color }} />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+    }
+
+    if (type === "tracking") {
+        const steps = [
+            { label: t("tracking_step_received"), done: true },
+            { label: t("tracking_step_production"), done: true },
+            { label: t("tracking_step_ready"), done: false, active: true },
+            { label: t("tracking_step_delivered"), done: false },
+        ];
+        return (
+            <div className="mockup mockup-tracking">
+                <div className="tr-header">
+                    <div className="tr-order-id">
+                        <i className="fa-solid fa-box" style={{ color }} />
+                        <span className="tr-id-text">#ORD-2847</span>
+                    </div>
+                    <div className="tr-status-pill" style={{ background: `${color}22`, border: `1px solid ${color}55`, color }}>
+                        <span className="tr-status-dot" style={{ background: color }} />
+                        {t("tracking_status_active")}
+                    </div>
+                </div>
+                <div className="tr-timeline">
+                    {steps.map((step, i) => (
+                        <div className="tr-step" key={i} style={{ animationDelay: `${i * 0.12}s` }}>
+                            <div className="tr-step-left">
+                                <div
+                                    className={`tr-dot ${step.done ? "tr-dot-done" : step.active ? "tr-dot-active" : "tr-dot-pending"}`}
+                                    style={step.done ? { background: color, boxShadow: `0 0 6px ${color}66` } : step.active ? { borderColor: color, boxShadow: `0 0 8px ${color}44` } : {}}
+                                />
+                                {i < steps.length - 1 && (
+                                    <div className="tr-connector" style={ step.done ? { background: `linear-gradient(180deg, ${color}, ${color}44)` } : {}} />
+                                )}
+                            </div>
+                            <span className={`tr-step-label ${step.done ? "tr-label-done" : step.active ? "tr-label-active" : "tr-label-pending"}`}
+                                style={step.active ? { color } : {}}>
+                                {step.active && <span className="tr-active-ping" style={{ background: color }} />}
+                                {step.label}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+                <div className="tr-link-row">
+                    <i className="fa-solid fa-link" style={{ color, fontSize: "9px" }} />
+                    <span className="tr-link-text">openoura.com/track/2847</span>
+                </div>
+            </div>
+        );
+    }
+
     return null;
 }
 
@@ -569,6 +656,28 @@ export default function ComingSoon() {
             colorSecondary: "#34d399",
             mockup: "mobile",
             eta: "Q1 2027",
+        },
+        {
+            id: "crm",
+            icon: "fa-solid fa-comments",
+            tag: t("feature_crm_tag"),
+            tagEn: t("feature_crm_tag_en"),
+            description: t("feature_crm_desc"),
+            color: "#06b6d4",
+            colorSecondary: "#3b82f6",
+            mockup: "crm",
+            eta: "Q2 2026",
+        },
+        {
+            id: "tracking",
+            icon: "fa-solid fa-map-location-dot",
+            tag: t("feature_tracking_tag"),
+            tagEn: t("feature_tracking_tag_en"),
+            description: t("feature_tracking_desc"),
+            color: "#22d3ee",
+            colorSecondary: "#06b6d4",
+            mockup: "tracking",
+            eta: "Q2 2026",
         },
     ];
 

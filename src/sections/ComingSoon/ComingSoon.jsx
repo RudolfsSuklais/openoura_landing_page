@@ -603,6 +603,8 @@ function FeatureCard({ feature, index, position, onClick, isVisible }) {
     );
 }
 
+const SWIPE_THRESHOLD = 50;
+
 export default function ComingSoon() {
     const { t } = useTranslation();
     const [visible, setVisible] = useState(false);
@@ -610,7 +612,12 @@ export default function ComingSoon() {
     const [isAnimating, setIsAnimating] = useState(false);
     const [paused, setPaused] = useState(false);
     const sectionRef = useRef(null);
+    const stageRef = useRef(null);
     const autoRef = useRef(null);
+
+    const touchStartX = useRef(null);
+    const touchStartY = useRef(null);
+    const isSwiping = useRef(false);
 
     const features = [
         {
@@ -717,6 +724,48 @@ export default function ComingSoon() {
         resetAuto();
     };
 
+    const handleTouchStart = useCallback((e) => {
+        const touch = e.touches[0];
+        touchStartX.current = touch.clientX;
+        touchStartY.current = touch.clientY;
+        isSwiping.current = false;
+        setPaused(true);
+    }, []);
+
+    useEffect(() => {
+        const el = stageRef.current;
+        if (!el) return;
+        const onMove = (e) => {
+            if (touchStartX.current === null) return;
+            const dx = e.touches[0].clientX - touchStartX.current;
+            const dy = e.touches[0].clientY - touchStartY.current;
+            if (!isSwiping.current && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
+                isSwiping.current = true;
+            }
+            if (isSwiping.current) e.preventDefault();
+        };
+        el.addEventListener("touchmove", onMove, { passive: false });
+        return () => el.removeEventListener("touchmove", onMove);
+    }, []);
+
+    const handleTouchEnd = useCallback(
+        (e) => {
+            if (touchStartX.current === null) return;
+            const dx = e.changedTouches[0].clientX - touchStartX.current;
+            touchStartX.current = null;
+            touchStartY.current = null;
+
+            if (isSwiping.current && Math.abs(dx) >= SWIPE_THRESHOLD) {
+                dx < 0 ? goTo(activeIndex + 1) : goTo(activeIndex - 1);
+                resetAuto();
+            }
+
+            isSwiping.current = false;
+            setTimeout(() => setPaused(false), 2000);
+        },
+        [activeIndex, goTo, resetAuto],
+    );
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -783,13 +832,12 @@ export default function ComingSoon() {
                     />
 
                     <div
+                        ref={stageRef}
                         className="cs-carousel-stage"
                         onMouseEnter={() => setPaused(true)}
                         onMouseLeave={() => setPaused(false)}
-                        onTouchStart={() => setPaused(true)}
-                        onTouchEnd={() =>
-                            setTimeout(() => setPaused(false), 2000)
-                        }>
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}>
                         {features.map((feature, i) => (
                             <FeatureCard
                                 key={feature.id}

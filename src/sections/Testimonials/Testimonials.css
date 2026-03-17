@@ -478,7 +478,7 @@
 
 @media (max-width: 768px) {
   .testimonials {
-    padding: 80px 5%;
+    padding: 80px 10%;
   }
 
   .testimonial-card {
@@ -486,7 +486,7 @@
   }
 
   .testimonial-footer {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     gap: 20px;
   }

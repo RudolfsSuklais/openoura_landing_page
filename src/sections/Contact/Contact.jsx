@@ -147,8 +147,9 @@ function Contact() {
             const data = await res.json();
 
             if (data.success) {
-                sessionStorage.setItem("lastSubmit", String(Date.now()));
-                setSubmitted(true);
+            sessionStorage.setItem("lastSubmit", String(Date.now()));
+            if (typeof fbq === "function") fbq("track", "Lead");
+            setSubmitted(true);
             } else {
                 setSubmitError(data.message || t("contact_err_generic"));
             }

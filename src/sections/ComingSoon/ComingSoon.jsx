@@ -401,43 +401,43 @@ function Mockup({ type, color, colorSecondary }) {
     }
 
     if (type === "crm") {
-    const statuses = [
-        { label: t("crm_status_new"), color: "#3b82f6", sms: false },
-        { label: t("crm_status_production"), color: "#f59e0b", sms: true },
-        { label: t("crm_status_ready"), color: "#10b981", sms: true },
-        { label: t("crm_status_delivered"), color: "#a855f7", sms: true },
-    ];
-    const messages = [
-        { to: "+371 2X XXX XXX", text: t("crm_sms_1"), delay: 0 },
-        { to: "+371 2X XXX XXX", text: t("crm_sms_2"), delay: 0.18 },
-    ];
-    return (
-        <div className="mockup mockup-crm">
-            <div className="crm-pipeline">
-                {statuses.map((s, i) => (
-                    <div className="crm-stage" key={i} style={{ animationDelay: `${i * 0.1}s` }}>
-                        <div className="crm-stage-dot" style={{ background: s.color, boxShadow: `0 0 6px ${s.color}88` }} />
-                        <span className="crm-stage-label">{s.label}</span>
-                        {s.sms && <i className="fa-solid fa-comment-sms crm-sms-icon" style={{ color }} />}
-                    </div>
-                ))}
-            </div>
-            <div className="crm-divider" />
-            <div className="crm-messages">
-                {messages.map((m, i) => (
-                    <div className="crm-msg-row" key={i} style={{ animationDelay: `${m.delay}s` }}>
-                        <div className="crm-msg-bubble">
-                            <div className="crm-msg-to">{m.to}</div>
-                            <div className="crm-msg-text">{m.text}</div>
+        const statuses = [
+            { label: t("crm_status_new"), color: "#3b82f6", sms: false },
+            { label: t("crm_status_production"), color: "#f59e0b", sms: true },
+            { label: t("crm_status_ready"), color: "#10b981", sms: true },
+            { label: t("crm_status_delivered"), color: "#a855f7", sms: true },
+        ];
+        const messages = [
+            { to: "+371 2X XXX XXX", text: t("crm_sms_1"), delay: 0 },
+            { to: "+371 2X XXX XXX", text: t("crm_sms_2"), delay: 0.18 },
+        ];
+        return (
+            <div className="mockup mockup-crm">
+                <div className="crm-pipeline">
+                    {statuses.map((s, i) => (
+                        <div className="crm-stage" key={i} style={{ animationDelay: `${i * 0.1}s` }}>
+                            <div className="crm-stage-dot" style={{ background: s.color, boxShadow: `0 0 6px ${s.color}88` }} />
+                            <span className="crm-stage-label">{s.label}</span>
+                            {s.sms && <i className="fa-solid fa-comment-sms crm-sms-icon" style={{ color }} />}
                         </div>
-                        <div className="crm-msg-sent">
-                            <i className="fa-solid fa-check-double" style={{ color }} />
+                    ))}
+                </div>
+                <div className="crm-divider" />
+                <div className="crm-messages">
+                    {messages.map((m, i) => (
+                        <div className="crm-msg-row" key={i} style={{ animationDelay: `${m.delay}s` }}>
+                            <div className="crm-msg-bubble">
+                                <div className="crm-msg-to">{m.to}</div>
+                                <div className="crm-msg-text">{m.text}</div>
+                            </div>
+                            <div className="crm-msg-sent">
+                                <i className="fa-solid fa-check-double" style={{ color }} />
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
-    );
+        );
     }
 
     if (type === "tracking") {
@@ -482,6 +482,74 @@ function Mockup({ type, color, colorSecondary }) {
                 <div className="tr-link-row">
                     <i className="fa-solid fa-link" style={{ color, fontSize: "9px" }} />
                     <span className="tr-link-text">openoura.com/track/2847</span>
+                </div>
+            </div>
+        );
+    }
+
+    if (type === "planner") {
+        const days = [
+            { day: t("planner_mon"), items: [
+                { name: "F-26.128", positions: 4, done: 3, color: "#22c55e" },
+                { name: "F-26.131", positions: 2, done: 0, color: "#f59e0b" },
+            ]},
+            { day: t("planner_tue"), items: [
+                { name: "F-26.128", positions: 1, done: 1, color: "#22c55e" },
+            ]},
+            { day: t("planner_wed"), items: [
+                { name: "F-26.134", positions: 6, done: 2, color: "#3b82f6" },
+            ]},
+            { day: t("planner_thu"), items: [
+                { name: "F-26.131", positions: 2, done: 2, color: "#22c55e" },
+                { name: "F-26.135", positions: 3, done: 0, color: "#ef4444" },
+            ]},
+            { day: t("planner_fri"), items: [
+                { name: "F-26.134", positions: 4, done: 0, color: "#f59e0b" },
+            ]},
+        ];
+
+        return (
+            <div className="mockup mockup-planner">
+                <div className="pl-header">
+                    <div className="pl-title-row">
+                        <i className="fa-solid fa-calendar-days" style={{ color }} />
+                        <span className="pl-title">{t("planner_week")} 14</span>
+                    </div>
+                    <div className="pl-tv-badge" style={{ background: `${color}18`, border: `1px solid ${color}44` }}>
+                        <i className="fa-solid fa-tv" style={{ color, fontSize: "8px" }} />
+                        <span style={{ color, fontSize: "8px", fontWeight: 700 }}>TV</span>
+                    </div>
+                </div>
+                <div className="pl-week">
+                    {days.map((d, di) => (
+                        <div className="pl-day" key={di} style={{ animationDelay: `${di * 0.08}s` }}>
+                            <span className="pl-day-label">{d.day}</span>
+                            <div className="pl-day-items">
+                                {d.items.map((item, ii) => {
+                                    const pct = item.positions > 0 ? Math.round((item.done / item.positions) * 100) : 0;
+                                    return (
+                                        <div className="pl-item" key={ii} style={{ borderLeftColor: item.color }}>
+                                            <span className="pl-item-name">{item.name}</span>
+                                            <div className="pl-item-bar">
+                                                <div className="pl-item-fill" style={{ width: `${pct}%`, background: item.color }} />
+                                            </div>
+                                            <span className="pl-item-count" style={{ color: item.done === item.positions ? "#22c55e" : "rgba(255,255,255,0.4)" }}>
+                                                {item.done}/{item.positions}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="pl-gantt-row">
+                    <span className="pl-gantt-label">{t("planner_gantt_label")}</span>
+                    <div className="pl-gantt-bars">
+                        <div className="pl-gantt-bar" style={{ width: "70%", background: `linear-gradient(90deg, ${color}, ${colorSecondary})`, animationDelay: "0.3s" }} />
+                        <div className="pl-gantt-bar" style={{ width: "40%", marginLeft: "30%", background: `linear-gradient(90deg, #f59e0b, #f97316)`, animationDelay: "0.45s" }} />
+                        <div className="pl-gantt-bar" style={{ width: "55%", marginLeft: "20%", background: `linear-gradient(90deg, #3b82f6, #06b6d4)`, animationDelay: "0.6s" }} />
+                    </div>
                 </div>
             </div>
         );
@@ -586,7 +654,7 @@ function FeatureCard({ feature, index, position, onClick, isVisible }) {
                             style={{
                                 width: isReleased
                                     ? "100%"
-                                    : `${[38, 20, 10][index] || 15}%`,
+                                    : `${feature.progress || 15}%`,
                             }}
                         />
                     </div>
@@ -614,10 +682,21 @@ export default function ComingSoon() {
     const sectionRef = useRef(null);
     const stageRef = useRef(null);
     const autoRef = useRef(null);
+    const pausedRef = useRef(false);
+    const animatingRef = useRef(false);
 
     const touchStartX = useRef(null);
     const touchStartY = useRef(null);
     const isSwiping = useRef(false);
+
+    // Keep refs in sync with state
+    useEffect(() => {
+        pausedRef.current = paused;
+    }, [paused]);
+
+    useEffect(() => {
+        animatingRef.current = isAnimating;
+    }, [isAnimating]);
 
     const features = [
         {
@@ -643,26 +722,16 @@ export default function ComingSoon() {
             status: "completed",
         },
         {
-            id: "schedule",
-            icon: "fa-solid fa-chart-gantt",
-            tag: t("feature_schedule_tag"),
-            tagEn: t("feature_schedule_tag"),
-            description: t("feature_schedule_desc"),
-            color: "#3b82f6",
-            colorSecondary: "#06b6d4",
-            mockup: "schedule",
-            eta: "Q3 2026",
-        },
-        {
-            id: "mobile",
-            icon: "fa-solid fa-mobile-screen-button",
-            tag: t("feature_mobile_tag"),
-            tagEn: t("feature_mobile_tag"),
-            description: t("feature_mobile_desc"),
-            color: "#10b981",
-            colorSecondary: "#34d399",
-            mockup: "mobile",
-            eta: "Q1 2027",
+            id: "planner",
+            icon: "fa-solid fa-calendar-check",
+            tag: t("feature_planner_tag"),
+            tagEn: t("feature_planner_tag_en"),
+            description: t("feature_planner_desc"),
+            color: "#8b5cf6",
+            colorSecondary: "#a78bfa",
+            mockup: "planner",
+            eta: "Q2 2026",
+            progress: 25,
         },
         {
             id: "crm",
@@ -674,6 +743,7 @@ export default function ComingSoon() {
             colorSecondary: "#3b82f6",
             mockup: "crm",
             eta: "Q2 2026",
+            progress: 10,
         },
         {
             id: "tracking",
@@ -685,6 +755,31 @@ export default function ComingSoon() {
             colorSecondary: "#06b6d4",
             mockup: "tracking",
             eta: "Q2 2026",
+            progress: 10,
+        },
+        {
+            id: "schedule",
+            icon: "fa-solid fa-chart-gantt",
+            tag: t("feature_schedule_tag"),
+            tagEn: t("feature_schedule_tag"),
+            description: t("feature_schedule_desc"),
+            color: "#3b82f6",
+            colorSecondary: "#06b6d4",
+            mockup: "schedule",
+            eta: "Q3 2026",
+            progress: 20,
+        },
+        {
+            id: "mobile",
+            icon: "fa-solid fa-mobile-screen-button",
+            tag: t("feature_mobile_tag"),
+            tagEn: t("feature_mobile_tag"),
+            description: t("feature_mobile_desc"),
+            color: "#10b981",
+            colorSecondary: "#34d399",
+            mockup: "mobile",
+            eta: "Q1 2027",
+            progress: 5,
         },
     ];
 
@@ -692,21 +787,23 @@ export default function ComingSoon() {
 
     const goTo = useCallback(
         (index) => {
-            if (isAnimating) return;
+            if (animatingRef.current) return;
             setIsAnimating(true);
+            animatingRef.current = true;
             setActiveIndex(((index % total) + total) % total);
-            setTimeout(() => setIsAnimating(false), 600);
+            setTimeout(() => {
+                setIsAnimating(false);
+                animatingRef.current = false;
+            }, 600);
         },
-        [isAnimating, total],
+        [total],
     );
 
     const resetAuto = useCallback(() => {
         if (autoRef.current) clearInterval(autoRef.current);
         autoRef.current = setInterval(() => {
-            setPaused((p) => {
-                if (!p) setActiveIndex((prev) => (prev + 1) % total);
-                return p;
-            });
+            if (pausedRef.current || animatingRef.current) return;
+            setActiveIndex((prev) => (prev + 1) % total);
         }, 4500);
     }, [total]);
 

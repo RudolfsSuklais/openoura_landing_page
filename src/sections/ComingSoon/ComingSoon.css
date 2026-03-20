@@ -1391,3 +1391,165 @@
   font-family: monospace;
   letter-spacing: 0.2px;
 }
+
+/* ===== PLANNER MOCKUP ===== */
+
+.mockup-planner {
+  padding: 10px 12px;
+  gap: 6px;
+  justify-content: space-between;
+}
+
+.pl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.pl-title-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pl-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.pl-tv-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.pl-week {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pl-day {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  opacity: 0;
+  transform: translateX(-6px);
+}
+
+.card-visible .pl-day {
+  animation: slideRowIn 0.35s ease forwards;
+}
+
+.pl-day-label {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 22px;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.pl-day-items {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pl-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 5px;
+  border-left: 2px solid;
+  border-radius: 0 4px 4px 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.pl-item-name {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  min-width: 48px;
+}
+
+.pl-item-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.pl-item-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s ease 0.5s;
+}
+
+.pl-item-count {
+  font-size: 8.5px;
+  font-weight: 700;
+  min-width: 18px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.pl-gantt-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 5px 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.pl-gantt-label {
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.pl-gantt-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pl-gantt-bar {
+  height: 4px;
+  border-radius: 99px;
+  opacity: 0;
+  transform-origin: left;
+}
+
+.card-visible .pl-gantt-bar {
+  animation: barGrow 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes barGrow {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}

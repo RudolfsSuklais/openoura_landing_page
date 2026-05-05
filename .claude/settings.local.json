@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git log *)",
+      "Bash(git checkout *)",
+      "Bash(awk '/\\\\.contact-next-steps/,/^\\\\.contact-form/')",
+      "Bash(awk '/\\\\.tier-popular-badge/,/^\\\\}/')",
+      "Bash(npm run *)"
+    ]
+  }
+}

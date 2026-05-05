@@ -14,17 +14,54 @@
     background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(124, 58, 237, 0.5) 30%,
-        rgba(168, 85, 247, 0.6) 50%,
-        rgba(124, 58, 237, 0.5) 70%,
+        rgba(123, 63, 242, 0.4) 30%,
+        rgba(225, 29, 255, 0.5) 50%,
+        rgba(123, 63, 242, 0.4) 70%,
         transparent 100%
     );
 }
 
-.footer-blur,
-.footer-blur-1,
-.footer-blur-2,
-.footer-grid-overlay { display: none; }
+.footer-blur {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(130px);
+    z-index: 0;
+    pointer-events: none;
+}
+.footer-blur-1 {
+    bottom: 20%;
+    left: -5%;
+    width: 500px;
+    height: 400px;
+    background: radial-gradient(
+        circle,
+        rgba(123, 63, 242, 0.1) 0%,
+        transparent 70%
+    );
+}
+.footer-blur-2 {
+    top: 10%;
+    right: -5%;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(
+        circle,
+        rgba(59, 130, 246, 0.07) 0%,
+        transparent 70%
+    );
+}
+
+.footer-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px
+    );
+    background-size: 32px 32px;
+    z-index: 0;
+    pointer-events: none;
+}
 
 .footer-inner {
     position: relative;
@@ -116,7 +153,7 @@
     align-items: center;
     gap: 8px;
     padding: 12px 22px;
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    background: linear-gradient(135deg, #7b3ff2, #e11dff);
     border: none;
     border-radius: 12px;
     color: #fff;
@@ -134,7 +171,7 @@
 .newsletter-btn:hover {
     opacity: 0.88;
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 8px 24px rgba(123, 63, 242, 0.4);
 }
 
 .newsletter-success {
@@ -333,7 +370,7 @@ a.contact-mini-row:hover {
     gap: 5px;
 }
 .footer-heart {
-    color: #a855f7;
+    color: #e11dff;
     animation: heartbeat 1.6s ease-in-out infinite;
     font-size: 11px;
 }

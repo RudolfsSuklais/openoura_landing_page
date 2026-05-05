@@ -730,8 +730,7 @@ export default function ComingSoon() {
             color: "#8b5cf6",
             colorSecondary: "#a78bfa",
             mockup: "planner",
-            eta: "Q2 2026",
-            progress: 25,
+            status: "completed",
         },
         {
             id: "crm",

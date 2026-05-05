@@ -441,6 +441,8 @@ planner_gantt_label: "Gantt skats",
             low_level: "Low level",
             downtime: "Downtime",
             real_time_cost: "Profit in 2025",
+            how_it_works_title: "How OpenOura works",
+            how_it_works_subtitle: "from the ground up",
 
             feature_crm_tag: "Client management",
             feature_crm_tag_en: "CRM & SMS",

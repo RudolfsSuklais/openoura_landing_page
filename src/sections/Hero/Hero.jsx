@@ -9,16 +9,13 @@ function Hero() {
 
   return (
     <section className="hero">
-      <div className="hero-blur-glow"></div>
-
       <div className="hero-container">
         <div className="hero-content">
           <div className="badge animate-fade-in">
             <span>
-              ✨{" "}
               {t(
                 "hero_new_feature",
-                "Jaunums: Projekti vadītājiem – pārvaldi un tamē projektus!",
+                "Jaunums: Projekti vadītājiem – pārvaldi un tāmē projektus!",
               )}
             </span>
           </div>
@@ -37,23 +34,45 @@ function Hero() {
             )}
           </p>
 
-        <div className="hero-actions animate-slide-up-button">
-  <a href="#pricing">
-    <PrimaryButton
-      icon={<i className="fa-solid fa-rocket"></i>}
-      btnText={t("get_started", "Sākt bez maksas")}
-    />
-  </a>
-  <a href="#contact">
-    <SecondaryButton 
-    btnText={t("book_demo", "Pieteikt demo")} 
-    />
-  </a>
-</div>
+          <div className="hero-actions animate-slide-up-button">
+            <a href="#contact">
+              <PrimaryButton
+                icon={<i className="fa-solid fa-calendar-check"></i>}
+                btnText={t("book_demo", "Pieteikt demo")}
+              />
+            </a>
+            <a href="#pricing">
+              <SecondaryButton
+                btnText={t("get_started", "Sākt bez maksas")}
+                icon={<i className="fa-solid fa-arrow-right"></i>}
+              />
+            </a>
+          </div>
+
+          <div className="hero-trust animate-slide-up-button">
+            <span>
+              <i className="fa-solid fa-circle-check"></i>
+              {t("trust_no_cc", "Nav kredītkarte vajadzīga")}
+            </span>
+            <span>
+              <i className="fa-solid fa-circle-check"></i>
+              {t("trust_free_trial", "14 dienu bezmaksas")}
+            </span>
+            <span>
+              <i className="fa-solid fa-circle-check"></i>
+              {t("trust_cancel", "Atcelšana jebkurā laikā")}
+            </span>
+          </div>
+
           <div className="hero-stats animate-fade-in-delayed">
             <div className="stat-item">
               <strong>100%</strong>
               <span>{t("stat_costs", "izmaksu pārskats")}</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <strong>10+</strong>
+              <span>{t("stat_companies", "uzņēmumi")}</span>
             </div>
             <div className="stat-divider"></div>
             <div className="stat-item">
@@ -64,7 +83,7 @@ function Hero() {
         </div>
 
         <div className="hero-visual animate-float">
-          <div className="glass-card main-card">
+          <div className="main-card">
             <div className="card-header">
               <div className="dot red"></div>
               <div className="dot yellow"></div>
@@ -102,7 +121,6 @@ function Hero() {
                     <div className="task-label">
                       <i className="fa-solid fa-hammer"></i> {t("task_quadra")}
                     </div>
-
                     <div className="task-tooltip">
                       <div className="tooltip-header">
                         {t("project")}: {t("project_name")}
@@ -124,14 +142,14 @@ function Hero() {
                       </div>
                     </div>
                   </div>
+
                   <div
                     className="timeline-task orange"
                     style={{ left: "48%", width: "3%" }}
                   >
                     <div className="task-label">
-                      <i className="fa-solid fa-coffee"></i>{" "}
+                      <i className="fa-solid fa-coffee"></i>
                     </div>
-
                     <div className="task-tooltip">
                       <div className="tooltip-header">
                         {t("break", "Pārtraukums")}
@@ -153,7 +171,6 @@ function Hero() {
                     <div className="task-label">
                       <i className="fa-solid fa-gear"></i> {t("task_cnc")}
                     </div>
-
                     <div className="task-tooltip">
                       <div className="tooltip-header">
                         {t("project")}: {t("project_name_2")}
@@ -188,7 +205,7 @@ function Hero() {
 
           <div className="floating-card task-card animate-float-slow">
             <div className="check-icon">
-              <i className="fa-solid fa-screwdriver-wrench"></i>{" "}
+              <i className="fa-solid fa-screwdriver-wrench"></i>
             </div>
             <div>
               <p>{t("floating_card_project", "Projekts: Brīvibas iela 12A")}</p>

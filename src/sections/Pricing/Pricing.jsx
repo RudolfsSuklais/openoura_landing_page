@@ -66,6 +66,8 @@ const featureKeys = [
     },
 ];
 
+const POPULAR_INDEX = 1;
+
 const Pricing = () => {
     const { t } = useTranslation();
     const [selectedTier, setSelectedTier] = useState(1);
@@ -116,6 +118,11 @@ const Pricing = () => {
                             key={i}
                             className={`tier-btn ${selectedTier === i ? "active" : ""}`}
                             onClick={() => setSelectedTier(i)}>
+                            {i === POPULAR_INDEX && (
+                                <span className="tier-popular-badge">
+                                    {t("popular", "Populārs")}
+                                </span>
+                            )}
                             <span className="tier-range">{t2.range}</span>
                             <span className="tier-users">
                                 {t("pricing_tier_users")}

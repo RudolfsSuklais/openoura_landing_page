@@ -244,6 +244,26 @@ function Contact() {
                             </div>
                         ))}
                     </div>
+
+                    <div className="contact-next-steps animate-fade-in-delayed">
+                        <p className="next-steps-label">
+                            {t("contact_what_next", "Kas notiek tālāk?")}
+                        </p>
+                        <div className="next-steps-list">
+                            <div className="next-step">
+                                <div className="next-step-num">1</div>
+                                <span>{t("contact_step_1", "Saņemsi atbildi 24h laikā")}</span>
+                            </div>
+                            <div className="next-step">
+                                <div className="next-step-num">2</div>
+                                <span>{t("contact_step_2", "15 min demo zvans")}</span>
+                            </div>
+                            <div className="next-step">
+                                <div className="next-step-num">3</div>
+                                <span>{t("contact_step_3", "Sāc 14 dienu bezmaksas izmēģinājumu")}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="contact-form-wrapper animate-slide-up">
